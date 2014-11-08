@@ -6,6 +6,13 @@
 
 package com.rplt.studioMusik.model;
 
+import com.rplt.studioMusik.mapper.DataPersewaanStudioMusikRowMapper;
+import com.rplt.studioMusik.mapper.StudioMusikRowMapper;
+import java.util.ArrayList;
+import java.util.List;
+import javax.sql.DataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 /**
  *
  * @author root
@@ -101,6 +108,73 @@ public class DataPersewaanStudioMusik {
         this.mStatusPelunasan = mStatusPelunasan;
     }
     
+    public static void simpanData(DataPersewaanStudioMusik pDataPersewaanStudioMusik) {
+        DataSource dataSource = DatabaseConnection.getmDataSource();
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        String sql = "INSERT INTO data_persewaan_studio_musik VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        jdbcTemplate.update(sql,
+                new Object[]{
+                    pDataPersewaanStudioMusik.getmKodeSewa(),
+                    pDataPersewaanStudioMusik.getmKodeStudio(),
+                    pDataPersewaanStudioMusik.getmNamaPenyewa(),
+                    pDataPersewaanStudioMusik.getmNomorTeleponPenyewa(),
+                    pDataPersewaanStudioMusik.getmTanggalSewa(),
+                    pDataPersewaanStudioMusik.getmJamSewa(),
+                    pDataPersewaanStudioMusik.getmDurasi(),
+                    pDataPersewaanStudioMusik.getmBiayaPelunasan(),
+                    pDataPersewaanStudioMusik.getmStatusPelunasan()
+                });
+    }
     
+    public static List<StudioMusik> getDataList() {
+        DataSource dataSource = DatabaseConnection.getmDataSource();
+        List pegawaiList = new ArrayList();
+
+        String sql = "SELECT * FROM data_persewaan_studio_musik";
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        pegawaiList = jdbcTemplate.query(sql, new DataPersewaanStudioMusikRowMapper());
+        return pegawaiList;
+    }
+    
+    public static void updateData(DataPersewaanStudioMusik pDataPersewaanStudioMusik) {
+        DataSource dataSource = DatabaseConnection.getmDataSource();
+
+        String sql = "UPDATE data_persewaan_studio_musik SET "
+                + "kode_studio = ?, "
+                + "nama_penyewa = ?, "
+                + "nomor_telepon = ?, "
+                + "tanggal_sewa = ?, "
+                + "jam_sewa = ?, "
+                + "durasi = ?, "
+                + "biaya_pelunasan = ?, "
+                + "status_pelunasan = ? "
+                + "WHERE kode_sewa = ?";
+        
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        jdbcTemplate.update(sql,
+                new Object[]{
+                    pDataPersewaanStudioMusik.getmKodeStudio(), 
+                    pDataPersewaanStudioMusik.getmNamaPenyewa(), 
+                    pDataPersewaanStudioMusik.getmNomorTeleponPenyewa(),
+                    pDataPersewaanStudioMusik.getmTanggalSewa(),
+                    pDataPersewaanStudioMusik.getmJamSewa(),
+                    pDataPersewaanStudioMusik.getmDurasi(), 
+                    pDataPersewaanStudioMusik.getmBiayaPelunasan(),
+                    pDataPersewaanStudioMusik.getmStatusPelunasan(),
+                    pDataPersewaanStudioMusik.getmKodeSewa()
+                });
+    }
+    
+    public static void deleteData(String pKodeSewa) {
+        DataSource dataSource = DatabaseConnection.getmDataSource();
+        
+        String sql = "DELETE FROM data_persewaan_studio_musik WHERE kode_sewa = " + pKodeSewa;
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate.update(sql);
+    }
     
 }

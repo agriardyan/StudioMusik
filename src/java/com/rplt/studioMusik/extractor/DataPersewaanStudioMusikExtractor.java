@@ -7,7 +7,6 @@
 package com.rplt.studioMusik.extractor;
 
 import com.rplt.studioMusik.model.DataPersewaanStudioMusik;
-import com.rplt.studioMusik.model.StudioMusik;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.dao.DataAccessException;

@@ -94,7 +94,7 @@ public class StudioMusik {
     public static void deleteData(String pKodeStudio) {
         DataSource dataSource = DatabaseConnection.getmDataSource();
         
-        String sql = "DELETE FROM studio_musik WHERE studio_musik = " + pKodeStudio;
+        String sql = "DELETE FROM studio_musik WHERE kode_studio = " + pKodeStudio;
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.update(sql);
     }
