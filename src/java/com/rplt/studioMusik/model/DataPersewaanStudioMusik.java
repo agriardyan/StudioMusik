@@ -7,7 +7,6 @@
 package com.rplt.studioMusik.model;
 
 import com.rplt.studioMusik.mapper.DataPersewaanStudioMusikRowMapper;
-import com.rplt.studioMusik.mapper.StudioMusikRowMapper;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
