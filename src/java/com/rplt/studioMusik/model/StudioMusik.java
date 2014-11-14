@@ -6,11 +6,15 @@
 
 package com.rplt.studioMusik.model;
 
-import com.rplt.studioMusik.mapper.StudioMusikRowMapper;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 
 /**
  *
@@ -98,6 +102,31 @@ public class StudioMusik {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.update(sql);
     }
+    
+    public static class StudioMusikRowMapper implements RowMapper<StudioMusik> {
+
+    @Override
+    public StudioMusik mapRow(ResultSet rs, int i) throws SQLException {
+        StudioMusikExtractor studioMusikExtractor = new StudioMusikExtractor();
+        return studioMusikExtractor.extractData(rs);
+    }
+    
+    public static class StudioMusikExtractor implements ResultSetExtractor<StudioMusik> {
+
+    @Override
+    public StudioMusik extractData(ResultSet rs) throws SQLException, DataAccessException {
+        StudioMusik studioMusik = new StudioMusik();
+        
+        studioMusik.setmKodeStudio(rs.getString(1));
+        studioMusik.setmNamaStudio(rs.getString(2));
+        studioMusik.setmTarifPerJam(rs.getInt(3));
+        
+        return studioMusik;
+    }
+    
+}
+    
+}
     
     
 }

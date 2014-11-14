@@ -6,35 +6,29 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Sabha Music Studio</title>
+        <title>Halaman Owner</title>
         <link rel="shortcut icon" href="img/Deep_User.png" type="image/png">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width; initial-scale=1.0">
         <link href="semantic-ui/packaged/css/semantic.css" rel="stylesheet" type="text/css">
         <link href="bxslider/jquery.bxslider.css" rel="stylesheet" type="text/css">
-                <style>
-                    .bx-wrapper ul li { height: 480px; }
-/*                    .bx-wrapper, .bx-viewport{
-                        height: 700px !important;
-                    }*/
-                </style>
+        <style>
+            .bx-wrapper ul li { height: 480px; }
+            /*                    .bx-wrapper, .bx-viewport{
+                                    height: 700px !important;
+                                }*/
+        </style>
     </head>
     <body>
 
         <!--Menu bar-->
-        <div class="ui menu">
-            <a class="active item" href="index.html">
-                <i class="home icon"></i> HOME
-            </a>
+        <div class="ui menu"> 
             <a class="item" href="homeOwner.html">
-                <i class="video icon"></i> PRODUCT
-            </a>
-            <a class="item" href="homeOperator.html">
-                <i class="user icon"></i> ABOUT US
+                <i class="video icon"></i> LOG IN AS : OWNER
             </a>
             <div class="right menu">
-                <a class="item" id="loginButton">
-                    <i class="sign in icon"></i> LOGIN
+                <a class="item" id="logoutButton">
+                    <i class="sign in icon"></i> LOG OUT
                 </a>
             </div>
         </div>
@@ -80,27 +74,70 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
+
         <!--Main body-->
         <h4 class="ui top center aligned attached inverted blue block header">
-            LATEST NEWS
+            LAPORAN
         </h4>
-        <div class="ui segment attached">
-            <ul id="slider1">
-                <li><img src="img/Kucing Berdoa.jpg" alt="slide1" title="Kucing Berdoa"></li>
-                <li><img src="img/Kucing Galau.jpg" alt="slide2" title="Kucing Galau"></li>
-                <li><img src="img/Kucing Natal.jpg" alt="slide2" title="Kucing Natal"></li>
-                <li><img src="img/Kucing Fotografer.jpg" alt="slide2" title="Kucing Fotografer"></li>
-            </ul>
+        <div class="field">
+            <div class="ui fluid selection dropdown">
+                <input name="connect as" type="hidden">
+                <i class="dropdown icon"></i>
+                <div class="default text">Buat Laporan :</div>
+                <div class="menu">
+                    <div class="item" data-value="admin" data-text="LAPORAN KEUANGAN STUDIO MUSIK SABHA">
+                        <i class="user icon"></i>
+                        LAPORAN KEUANGAN STUDIO MUSIK SABHA
+                    </div>
+                    <div class="item" data-value="operator" data-text="LAPORAN OPERASIONAL STUDIO MUSIK SABHA">
+                        <i class="users icon"></i>
+                        LAPORAN OPERASIONAL STUDIO MUSIK SABHA
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="ui fluid selection dropdown">
+                    <input name="connect as" type="hidden">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Bulan :</div>
+                    <div class="menu">
+                        <div class="item" data-value="admin" data-text="Januari">
+                            <i class="user icon"></i>
+                            Januari
+                        </div>
+                        <div class="item" data-value="admin" data-text="Februari">
+                            <i class="user icon"></i>
+                            Februari
+                        </div>
+                        <div class="item" data-value="admin" data-text="Maret">
+                            <i class="user icon"></i>
+                            Maret
+                        </div>
+                        <div class="item" data-value="admin" data-text="dst">
+                            <i class="user icon"></i>
+                            dst
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ui form segment" id="sideLogin">
+                    <div class="field">
+                        <div class="ui left labeled icon input">
+                            <input type="text" placeholder="Tahun">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <br/><div class="ui tiny red submit button"> BUAT LAPORAN! </div>
         </div>
         <h4 class="ui top center aligned attached inverted blue block header">
-            UPCOMING EVENT @SABHA
+            LAPORAN ...
         </h4>
-        <div class="ui segment attached">
-            <ul id="slider2">
-                <li><img src="img/11.jpg" alt="slide1" title="Domo"></li>
-                <li><img src="img/12.jpg" alt="slide2" title="AKB48"></li>
-                <li><img src="img/13.jpg" alt="slide3" title="The North Face"></li>
-            </ul>
+        <div class="field">
+            <br/><div class="ui tiny red submit button"> CETAK LAPORAN! </div>
         </div>
         <!--        <div class="ui grid">
                     <div class="thirteen wide column">
@@ -124,6 +161,7 @@ and open the template in the editor.
                         </div>
                     </div>
                 </div>-->
+
         <!--Script-->
         <script src="semantic-ui/packaged/javascript/jquery-2.1.1.js" type="text/javascript"></script>
         <script src="bxslider/jquery.bxslider.js" type="text/javascript"></script>
