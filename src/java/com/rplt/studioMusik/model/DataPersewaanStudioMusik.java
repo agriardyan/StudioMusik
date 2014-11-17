@@ -29,11 +29,11 @@ public class DataPersewaanStudioMusik {
     private String mJamSewa;
     private int mDurasi;
     private int mBiayaPelunasan;
-    private STATUS_PELUNASAN mStatusPelunasan;
+    private String mStatusPelunasan;
 
-    public enum STATUS_PELUNASAN {
-
-        UANG_MUKA, LUNAS;
+    public static class STATUS_PELUNASAN {
+        public static final String UANG_MUKA = "UANG MUKA";
+        public static final String LUNAS = "LUNAS";
     }
 
     public DataPersewaanStudioMusik() {
@@ -103,14 +103,14 @@ public class DataPersewaanStudioMusik {
         this.mBiayaPelunasan = mBiayaPelunasan;
     }
 
-    public STATUS_PELUNASAN getmStatusPelunasan() {
+    public String getmStatusPelunasan() {
         return mStatusPelunasan;
     }
 
-    public void setmStatusPelunasan(STATUS_PELUNASAN mStatusPelunasan) {
+    public void setmStatusPelunasan(String mStatusPelunasan) {
         this.mStatusPelunasan = mStatusPelunasan;
     }
-
+    
     public static void simpanData(DataPersewaanStudioMusik pDataPersewaanStudioMusik) {
         DataSource dataSource = DatabaseConnection.getmDataSource();
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -141,6 +141,13 @@ public class DataPersewaanStudioMusik {
         pegawaiList = jdbcTemplate.query(sql, new DataPersewaanStudioMusikRowMapper());
         return pegawaiList;
     }
+    
+//    SELECT * FROM cobacoba WHERE
+//to_char(jam_mulai,'hh24:mi:ss.FF3')
+//BETWEEN '10:00:00' AND '11:00:00' 
+//OR 
+//(to_char(jam_selesai,'hh24:mi:ss.FF3') > '10:00:00' AND 
+//to_char(jam_mulai,'hh24:mi:ss.FF3') < '11:00:00');
 
     public static void updateData(DataPersewaanStudioMusik pDataPersewaanStudioMusik) {
         DataSource dataSource = DatabaseConnection.getmDataSource();
@@ -202,7 +209,7 @@ public class DataPersewaanStudioMusik {
                 dataPersewaanStudioMusik.setmJamSewa(rs.getString(6));
                 dataPersewaanStudioMusik.setmDurasi(rs.getInt(7));
                 dataPersewaanStudioMusik.setmBiayaPelunasan(rs.getInt(8));
-                dataPersewaanStudioMusik.setmStatusPelunasan(DataPersewaanStudioMusik.STATUS_PELUNASAN.UANG_MUKA);
+                dataPersewaanStudioMusik.setmStatusPelunasan(rs.getString(9));
 
                 return dataPersewaanStudioMusik;
             }
