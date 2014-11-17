@@ -27,11 +27,13 @@ public class DataPersewaanStudioMusik {
     private String mNomorTeleponPenyewa;
     private String mTanggalSewa;
     private String mJamSewa;
+    private String mJamSelesai;
     private int mDurasi;
     private int mBiayaPelunasan;
     private String mStatusPelunasan;
 
     public static class STATUS_PELUNASAN {
+
         public static final String UANG_MUKA = "UANG MUKA";
         public static final String LUNAS = "LUNAS";
     }
@@ -87,6 +89,14 @@ public class DataPersewaanStudioMusik {
         this.mJamSewa = mJamSewa;
     }
 
+    public String getmJamSelesai() {
+        return mJamSelesai;
+    }
+
+    public void setmJamSelesai(String mJamSelesai) {
+        this.mJamSelesai = mJamSelesai;
+    }
+
     public int getmDurasi() {
         return mDurasi;
     }
@@ -110,12 +120,14 @@ public class DataPersewaanStudioMusik {
     public void setmStatusPelunasan(String mStatusPelunasan) {
         this.mStatusPelunasan = mStatusPelunasan;
     }
-    
+
     public static void simpanData(DataPersewaanStudioMusik pDataPersewaanStudioMusik) {
         DataSource dataSource = DatabaseConnection.getmDataSource();
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-        String sql = "INSERT INTO data_persewaan_studio_musik VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//        String sql = "INSERT INTO data_persewaan_studio_musik VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO data_persewaan_studio_musik (KODE_SEWA, KODE_STUDIO, NAMA_PENYEWA, NOMOR_TELEPON, TANGGAL_SEWA, JAM_SEWA, JAM_SELESAI, BIAYA_PELUNASAN, STATUS_PELUNASAN) "
+                + "VALUES (?, ?, ?, ?, ?, TO_DATE(?, 'HH24:MI'), TO_DATE(?, 'HH24:MI'), ?, ?)";
 
         jdbcTemplate.update(sql,
                 new Object[]{
@@ -131,9 +143,9 @@ public class DataPersewaanStudioMusik {
                 });
     }
 
-    public static List<StudioMusik> getDataList() {
+    public static List<DataPersewaanStudioMusik> getDataList() {
         DataSource dataSource = DatabaseConnection.getmDataSource();
-        List pegawaiList = new ArrayList();
+        List<DataPersewaanStudioMusik> pegawaiList = new ArrayList<DataPersewaanStudioMusik>();
 
         String sql = "SELECT * FROM data_persewaan_studio_musik";
 
@@ -141,14 +153,45 @@ public class DataPersewaanStudioMusik {
         pegawaiList = jdbcTemplate.query(sql, new DataPersewaanStudioMusikRowMapper());
         return pegawaiList;
     }
-    
+
+    public static boolean cekKetersediaanJadwal(DataPersewaanStudioMusik pDataPersewaanStudioMusik) {
+        DataSource dataSource = DatabaseConnection.getmDataSource();
+        List<DataPersewaanStudioMusik> pegawaiList = new ArrayList<DataPersewaanStudioMusik>();
+        
+        String kodeStudio = pDataPersewaanStudioMusik.getmKodeStudio();
+        String tanggalSewa = pDataPersewaanStudioMusik.getmTanggalSewa();
+        String jamSewa = pDataPersewaanStudioMusik.getmJamSewa();
+        String jamSelesai = pDataPersewaanStudioMusik.getmJamSelesai();
+
+        String sql = "SELECT * FROM DATA_PERSEWAAN_STUDIO_MUSIK WHERE "
+                + "kode_studio = '"+kodeStudio+"' "
+                + "AND tanggal_sewa = '"+tanggalSewa+"' "
+                + "AND ("
+                + "to_char(jam_sewa,'HH24:MI') "
+                + "BETWEEN '" + jamSewa + "' AND '" + jamSelesai + "' "
+                + "AND "
+                + "(to_char(jam_selesai,'HH24:MI') > '" + jamSewa + "' AND "
+                + "to_char(jam_sewa,'HH24:MI') < '" + jamSelesai + "')"
+                + ")";
+        
+        System.out.println(sql);
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        pegawaiList = jdbcTemplate.query(sql, new DataPersewaanStudioMusikRowMapper());
+
+        if (pegawaiList.size() <= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 //    SELECT * FROM cobacoba WHERE
 //to_char(jam_mulai,'hh24:mi:ss.FF3')
 //BETWEEN '10:00:00' AND '11:00:00' 
 //OR 
 //(to_char(jam_selesai,'hh24:mi:ss.FF3') > '10:00:00' AND 
 //to_char(jam_mulai,'hh24:mi:ss.FF3') < '11:00:00');
-
     public static void updateData(DataPersewaanStudioMusik pDataPersewaanStudioMusik) {
         DataSource dataSource = DatabaseConnection.getmDataSource();
 

@@ -12,7 +12,7 @@
             font-family: "Amplify_PersonalUseOnly";
             font-weight: bold;
             font-size: large;
-            src: url('Amplify_PersonalUseOnly.ttf');
+            src: url('font/Amplify_PersonalUseOnly.ttf');
         }
     </style>
     <head>
@@ -27,7 +27,7 @@
           background-size: cover; 
           background-attachment: fixed; 
           background-position: center;
-          opacity: 0.9;">
+          opacity: 1.0;">
         <div class="ui grid">
             <div class="row">
                 <div class="six wide column">
@@ -40,7 +40,7 @@
                             </h1>
                             <div class="form segment" id="mtixSignin">
                                 <div class="field">
-                                    <div class="ui ribbon label">Username</div>
+                                    <!--div class="ui ribbon label">Username</div-->
                                     <div class="ui left labeled icon input">
                                         <input name="username" type="text" placeholder="Username">
                                         <i class="user icon"></i>
@@ -48,7 +48,7 @@
                                 </div>
                                 <br>
                                 <div class="field">
-                                    <div class="ui ribbon label">Password</div>
+                                    <!--div class="ui ribbon label">Password</div-->
                                     <div class="ui left labeled icon input">
                                         <input name="password" type="password" placeholder="Password">
                                         <i class="lock icon"></i>
@@ -56,15 +56,16 @@
                                 </div>
                                 <br>
                                 <div class="field">
-                                    <div class="ui ribbon label">Connect as</div>
+                                    <!--div class="ui ribbon label">Connect as</div-->
+                                    <label style="font-family:  fantasy; color: white">Operator </label>
                                     <div class="ui toggle checkbox">
                                         <input id="check1" type="checkbox">
                                         <label for="check1" style="font-family:  fantasy; color: white">Admin</label>
                                     </div>
-                                    <div class="ui toggle checkbox">
+                                    <!--div class="ui toggle checkbox">
                                         <input id="check2" type="checkbox">
                                         <label for="check2" style="font-family:  fantasy; color: white">Operator</label>
-                                    </div>
+                                    </div-->
                                 </div>
                                 <br>
                                 <div class="field">

@@ -18,7 +18,10 @@
 
         <div class="ui menu">
             <a class="active item" href="index.html">
-                <i class="home icon"></i> TRANSAKSI PERSEWAAN
+                <i class="home icon"></i> BOOKING
+            </a>
+            <a class="active item" href="index.html">
+                <i class="home icon"></i> TRANSAKSI PELUNASAN
             </a>
             <div class="right menu">
                 <form method="POST">
