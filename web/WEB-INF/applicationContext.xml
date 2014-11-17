@@ -22,4 +22,5 @@
 
     <!-- ADD PERSISTENCE SUPPORT HERE (jpa, hibernate, etc) -->
 
+    <bean id="dataPegawai" class="com.rplt.studioMusik.model.DataPegawai"/>
 </beans>

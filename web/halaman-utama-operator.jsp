@@ -17,11 +17,11 @@
     <body>
 
         <div class="ui menu">
-            <a class="active item" href="index.html">
-                <i class="home icon"></i> BOOKING
+            <a class="item" href="#">
+                <i class="book icon"></i> BOOKING
             </a>
-            <a class="active item" href="index.html">
-                <i class="home icon"></i> TRANSAKSI PELUNASAN
+            <a class="item" href="#">
+                <i class="money icon"></i> TRANSAKSI PELUNASAN
             </a>
             <div class="right menu">
                 <form method="POST">
@@ -34,7 +34,7 @@
                                     <td>${name}</td>
                                 </tr>
                                 <tr>
-                                    <td>ID</td>
+                                    <td >ID</td>
                                     <td>${username}</td>
                                 </tr>
                             </table>
@@ -48,27 +48,30 @@
         <h3 class="ui top center aligned attached inverted blue block header">
             Cek Ketersediaan Jadwal
         </h3>
-        <br />
+        <br>
         <div class="ui two column middle aligned relaxed grid basic segment">
-            <div class="column">
-                <div class="field">
-                    <div class="ui purple ribbon label">Tanggal Sewa</div>
-                    <input type="text" id="popupDatepicker">
-                </div>
-                <br>
-                <div class="ui two column middle aligned grid basic segment">
-                    <div class="column">
-                        <div class="field">
-                            <div class="ui purple ribbon label">Jam Sewa</div>
-                            <input id="input-a" value="" data-default="20:48">
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="field">
-                            <div class="ui purple ribbon label">Durasi Sewa</div>
-                        </div>
-                    </div>
-                </div>
+            <div class="ui two column" id="checkData">
+                <table>
+                    <thead>
+                        <tr>
+                            <td><div class="ui purple block label">Tanggal Sewa</div></td>
+                            <td colspan="2"><div class="ui purple block label">Jam Sewa & Durasi</div></td>
+                            <td><div class="ui purple block label">Studio</div></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" id="popupDatepicker" placeholder="Tanggal Sewa"></td>
+                            <td><input id="input-a" value="" data-default="00:00" placeholder="Jam Sewa"></td>
+                            <td><input name="durasi" value="" type="text" placeholder="Durasi Sewa"></td>
+                            <td><select class="ui selection dropdown">
+                                    <option>Studio 1</option>
+                                    <option>Studio 2</option>
+                                    <option>Studio 3</option>
+                                </select></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="ui vertical divider"></div>
             <div class="center aligned column">
@@ -88,15 +91,21 @@
         <div class="ui form segment">
             <div class="field">
                 <label>Nama Penyewa</label>
-                <input type="text">
+                <div class="ui left labeled icon input">
+                    <input name="penyewa" type="text" placeholder="Nama Penyewa">
+                    <i class="user icon"></i>
+                </div>
             </div>
             <div class="field">
                 <label>Nomor Telepon Penyewa</label>
-                <input type="text">
+                <div class="ui left labeled icon input">
+                    <input name="telepon" type="text" placeholder="Nomor Telepon Penyewa">
+                    <i class="phone icon"></i>
+                </div>
             </div>
             <div class="field">
                 <label>Nomor Studio</label>
-                <div class="ui fluid selection dropdown">
+                <div class="ui fluid selection dropdown" id="drop">
                     <i class="dropdown icon"></i>
                     <div class="default text">Nomor Studio</div>
                     <div class="menu">
@@ -119,18 +128,14 @@
         <script src="date/jquery.datepick.js" type="text/javascript"></script>
         <script src="jclockpicker/jquery-clockpicker.min.js" type="text/javascript"></script>
         <script type="text/javascript">
-            $(document).ready(function (){
-                var input = $('#input-a');
-                input.clockpicker({autoclose: true});
+            var originalstate = $('#checkData').clone();
+            $('#checkData').replaceWith(originalstate);
+            $(document).ready(function() {
+                $('#input-a').clockpicker({autoclose: true});
                 $('#popupDatepicker').datepick();
+                $('#drop').dropdown();
             });
-//            $(function() {
-//                $('#popupDatepicker').datepick();
-//                $('#popupDatepickers').datepick();
 //                $('#inlineDatepicker').datepick({onSelect: showDate});
-                
-//            });
-
             function showDate(date) {
                 alert('The date chosen is ' + date);
             }
