@@ -4,14 +4,10 @@
     Author     : Lorencius
 --%>
 
+<%@page import="com.rplt.studioMusik.model.DataPegawai"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <%
-    if(null!=request.getParameter("commit")){
-        
-    }
-    %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>SMS</title>
@@ -32,6 +28,47 @@
           background-attachment: fixed; 
           background-position: center;
           opacity: 1.0;">
+
+
+        <%
+            if (null != request.getParameter("commit")) {
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                String role = request.getParameter("role");
+                int login = DataPegawai.validateLoginCredential(username, password, role);
+
+                switch (login) {
+                    case 0:
+                        out.print("<script type=\"text/javascript\">");
+                        out.print("alert(\"Unregistered username\");");
+                        out.print("</script>");
+                        break;
+                    case 1:
+                        out.print("<script type=\"text/javascript\">");
+                        out.print("alert(\"Username or Password or Role was incorrect, bro!\");");
+                        out.print("</script>");
+                        break;
+                    case 2:
+                        session.setAttribute("role", "Operator");
+                        session.setAttribute("name", request.getParameter("username"));
+                        session.setAttribute("username", request.getParameter("username"));
+                        response.sendRedirect("halaman-utama-operator.jsp");
+                        break;
+                    case 3:
+                        session.setAttribute("role", "Admin");
+                        session.setAttribute("name", request.getParameter("username"));
+                        session.setAttribute("username", request.getParameter("username"));
+                        response.sendRedirect("halaman-utama-admin.jsp");
+                        break;
+                    default:
+                        System.err.println("ENTER DEFAULT");
+                        break;
+                }
+
+            }
+        %>
+
+
         <div class="ui grid">
             <div class="row">
                 <div class="six wide column">
@@ -59,14 +96,14 @@
                                 <br>
                                 <div class="field">
                                     <div class="ui selection dropdown">
-                                    <input name="role" type="hidden" id="role">
-                                    <div class="default text">Connect As</div>
-                                    <i class="dropdown icon"></i>
-                                    <div class="menu">
-                                        <div class="item" data-value="admin" >Admin</div>
-                                        <div class="item" data-value="operator" >Operator</div>
+                                        <input name="role" type="hidden" id="role">
+                                        <div class="default text">Connect As</div>
+                                        <i class="dropdown icon"></i>
+                                        <div class="menu">
+                                            <div class="item" data-value="admin" >Admin</div>
+                                            <div class="item" data-value="operator" >Operator</div>
+                                        </div>
                                     </div>
-                                </div>
                                 </div>
                                 <br>
                                 <div class="field">

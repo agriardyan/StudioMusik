@@ -6,6 +6,7 @@
 
 package com.rplt.studioMusik.testPackage;
 
+import com.rplt.studioMusik.model.DataPegawai;
 import com.rplt.studioMusik.model.DataPersewaanStudioMusik;
 import com.rplt.studioMusik.model.DatabaseConnection;
 import com.rplt.studioMusik.model.StudioMusik;
@@ -32,9 +33,11 @@ public class TestClass {
         String generatedKodeSewa = dpsm.getGeneratedKodeSewa();
         System.out.println(generatedKodeSewa);
         
-        simpanData();
+//        simpanData();
         
         getDataList();
+        
+        testLogin();
         
 //        dpsm.setmKodeStudio("101");
 //        dpsm.setmTanggalSewa("11-NOV-14");
@@ -72,6 +75,12 @@ public class TestClass {
         for (int i = 0; i < dataList.size(); i++) {
             System.out.println(dataList.get(i).getmKodeSewa() + "\t" + dataList.get(i).getmNamaPenyewa());
         }
+    }
+    
+    public static void testLogin()
+    {
+        int login = DataPegawai.validateLoginCredential("P003", "P003", "operator");
+        System.out.println(login);
     }
     
 }

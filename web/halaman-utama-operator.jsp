@@ -4,15 +4,10 @@
     Author     : Lorencius
 --%>
 
+<%@page import="com.rplt.studioMusik.model.DataPersewaanStudioMusik"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <%
-        if (null != request.getParameter("commit")) {
-            out.print(request.getParameter("studio"));
-            out.print(request.getParameter("tanggalSewa"));
-        }
-    %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="semantic-ui/packaged/css/semantic.css" rel="stylesheet" type="text/css">
@@ -21,10 +16,33 @@
         <title>Halaman Utama Operator</title>
     </head>
     <body>
+        <%
+            if (null != request.getParameter("submit")) {
+
+                String tanggal = request.getParameter("tanggalSewa");
+                String jamSewa = request.getParameter("jamSewa");
+                String kodeStudio = request.getParameter("studio");
+                String durasiSewa = request.getParameter("durasiSewa");
+                String namaPemesan = request.getParameter("namaPemesan");
+                String noTelp = request.getParameter("noTelp");
+
+                DataPersewaanStudioMusik dpsm = new DataPersewaanStudioMusik();
+                dpsm.setmKodeStudio(kodeStudio);
+                dpsm.setmNamaPenyewa(namaPemesan);
+                dpsm.setmNomorTeleponPenyewa(noTelp);
+                dpsm.setmTanggalSewa(tanggal);
+                dpsm.setmJamSewa(jamSewa);
+                dpsm.setmDurasi(Integer.parseInt(durasiSewa));
+                dpsm.setmBiayaPelunasan(30000);
+                dpsm.setmStatusPelunasan("BOOKING");
+
+                DataPersewaanStudioMusik.simpanData(dpsm);
+            }
+        %>
         <!--Menu bar-->
         <div class="container">
             <div class="ui inverted menu">
-                <a class="active item" href="halaman-utama.jsp">
+                <a class="active item" href="halaman-utama-operator.jsp">
                     <i class="book icon"></i> BOOKING
                 </a>
                 <a class="item" href="halaman-pelunasan.jsp">
@@ -77,11 +95,6 @@
                                 </div>
                                 <div class="two fields">
                                     <div class="field">
-                                        <!--<label>Studio</label>-->
-                                        <!--                                <div class="ui left labeled icon input">
-                                                                            <input placeholder="Studio" type="password">
-                                                                            <i class="music icon"></i>
-                                                                        </div>-->
                                         <div class="ui fluid selection dropdown">
                                             <input name="studio" type="hidden" id="noStudio">
                                             <div class="default text">Studio</div>
@@ -125,8 +138,19 @@
         </div>
 
 
-        <div class="ui two column grid">
+        <div class="ui one column grid">
             <div class="column">
+                <h3 class="ui black inverted center aligned top attached header">Pemesanan</h3>
+                <div class="ui form attached segment">
+                    <div class="field">
+                        <input type="text" name="namaPemesan" placeholder="Nama Pemesan"> 
+                    </div>
+                    <div class="field">
+                        <input type="text" name="noTelp" placeholder="Nomor Telepon Pemesan">
+                    </div>
+                </div>
+            </div>
+            <!--div class="column">
                 <h3 class="ui black inverted center aligned top attached header">Pemesanan</h3>
                 <div class="ui form attached segment">
                     <div class="field">
@@ -136,45 +160,44 @@
                         <input type="text" name="notelp" placeholder="Nomor Telepon Pemesan">
                     </div>
                 </div>
-            </div>
-            <div class="column">
-                <h3 class="ui black inverted center aligned top attached header">Pemesanan</h3>
-                <div class="ui form attached segment">
-                    <div class="field">
-                        <input type="text" name="nama" placeholder="Nama Pemesan"> 
-                    </div>
-                    <div class="field">
-                        <input type="text" name="notelp" placeholder="Nomor Telepon Pemesan">
-                    </div>
-                </div>
-            </div>
+            </div-->
+
         </div>
 
+        <div class="ui three column grid">
+            <div class="column"></div>
+            <div class="column">
+                <div class="field">
+                    <input type="submit" name="submit" class="big yellow ui fluid button" value="Submit">
+                </div>
+            </div>
+            <div class="column"></div>
+        </div>
 
-        <script src="semantic-ui/packaged/javascript/jquery-2.1.1.js" type="text/javascript"></script>
-        <script src="semantic-ui/packaged/javascript/semantic.js" type="text/javascript"></script>
-        <script src="date/jquery.plugin.js" type="text/javascript"></script>
-        <script src="date/jquery.datepick.js" type="text/javascript"></script>
-        <script src="jclockpicker/jquery-clockpicker.min.js" type="text/javascript"></script>
-        <script type="text/javascript">
-            var originalState = $('#formCek').clone();
-            $('#formCek').replaceWith(originalState);
+    <script src="semantic-ui/packaged/javascript/jquery-2.1.1.js" type="text/javascript"></script>
+    <script src="semantic-ui/packaged/javascript/semantic.js" type="text/javascript"></script>
+    <script src="date/jquery.plugin.js" type="text/javascript"></script>
+    <script src="date/jquery.datepick.js" type="text/javascript"></script>
+    <script src="jclockpicker/jquery-clockpicker.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var originalState = $('#formCek').clone();
+        $('#formCek').replaceWith(originalState);
 
-            //            var clickStudio1 = function(){
-            //                document.getElementById("noStudio").val = "Studio 1";
-            //            };
-            //            var clickStudio2 = function(){
-            //                document.getElementById("noStudio").val = "Studio 2";
-            //            };
-            //            var clickStudio3 = function(){
-            //                document.getElementById("noStudio").val = "Studio 3";
-            //            };
+        //            var clickStudio1 = function(){
+        //                document.getElementById("noStudio").val = "Studio 1";
+        //            };
+        //            var clickStudio2 = function(){
+        //                document.getElementById("noStudio").val = "Studio 2";
+        //            };
+        //            var clickStudio3 = function(){
+        //                document.getElementById("noStudio").val = "Studio 3";
+        //            };
 
-            $(document).ready(function() {
-                $('#popupClockpicker').clockpicker({autoclose: true});
-                $('#popupDatepicker').datepick({dateFormat: 'dd-M-yyyy'});
-                $('.ui.dropdown').dropdown();
-            });
-        </script>
-    </body>
+        $(document).ready(function() {
+            $('#popupClockpicker').clockpicker({autoclose: true});
+            $('#popupDatepicker').datepick({dateFormat: 'dd-M-yyyy'});
+            $('.ui.dropdown').dropdown();
+        });
+    </script>
+</body>
 </html>

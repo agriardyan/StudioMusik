@@ -171,7 +171,7 @@ public class DataPegawai {
         DataSource dataSource = DatabaseConnection.getmDataSource();
         List<DataPegawai> pegawaiList = new ArrayList<DataPegawai>();
 
-        String sql = "SELECT * FROM pegawai_studio_musik WHERE username_pegawai = \'" + pUsername.toUpperCase() + "\'";
+        String sql = "SELECT * FROM pegawai_studio_musik WHERE username_pegawai = '" + pUsername.toUpperCase() + "'";
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         pegawaiList = jdbcTemplate.query(sql, new PegawaiRowMapper());
@@ -180,7 +180,7 @@ public class DataPegawai {
             String username = pegawaiList.get(0).getmUsernamePegawai();
             String password = pegawaiList.get(0).getmPaswordPegawai();
             String role = pegawaiList.get(0).getmRolePegawai();
-            if (pUsername.equalsIgnoreCase(username) && pPassword.equals(password) && pRole.equals(role)) {
+            if (pUsername.equalsIgnoreCase(username) && pPassword.equals(password) && pRole.equalsIgnoreCase(role)) {
                 System.out.println("ROLE : " + role);
                 if (role.equalsIgnoreCase(ROLE.OPERATOR)) {
                     return 2;
