@@ -14,6 +14,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.rowset.ResultSetWrappingSqlRowSet;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 /**
  *
@@ -89,14 +91,6 @@ public class DataPersewaanStudioMusik {
         this.mJamSewa = mJamSewa;
     }
 
-    public String getmJamSelesai() {
-        return mJamSelesai;
-    }
-
-    public void setmJamSelesai(String mJamSelesai) {
-        this.mJamSelesai = mJamSelesai;
-    }
-
     public int getmDurasi() {
         return mDurasi;
     }
@@ -121,26 +115,68 @@ public class DataPersewaanStudioMusik {
         this.mStatusPelunasan = mStatusPelunasan;
     }
 
+    public String getGeneratedKodeSewa() {
+
+        DataSource dataSource = DatabaseConnection.getmDataSource();
+
+        String sql = "SELECT to_char(max(kode_sewa) + 1, '099999') FROM data_persewaan_studio_musik";
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        return jdbcTemplate.queryForObject(sql, String.class, (Object[]) null).trim();
+    }
+
+    private static void hitungJamSelesai(DataPersewaanStudioMusik pDataPersewaanStudioMusik) {
+        DataSource dataSource = DatabaseConnection.getmDataSource();
+        List<DataPersewaanStudioMusik> pegawaiList = new ArrayList<DataPersewaanStudioMusik>();
+
+        String sql = "UPDATE data_persewaan_studio_musik SET "
+                + " jam_selesai = "
+                + "to_date((SELECT to_char((JAM_SEWA + " + pDataPersewaanStudioMusik.getmDurasi() + " / 1440), 'HH24:MI') FROM data_persewaan_studio_musik WHERE kode_sewa = ?), 'HH24:MI') "
+                + "WHERE kode_sewa = ?";
+
+        System.out.println(sql);
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate.update(sql, new Object[]{
+            pDataPersewaanStudioMusik.getmKodeSewa(),
+            pDataPersewaanStudioMusik.getmKodeSewa()
+        });
+    }
+
+    public void setmJamSelesai(String mJamSelesai) {
+        this.mJamSelesai = mJamSelesai;
+    }
+
+    public String getmJamSelesai() {
+        return mJamSelesai;
+    }
+
     public static void simpanData(DataPersewaanStudioMusik pDataPersewaanStudioMusik) {
         DataSource dataSource = DatabaseConnection.getmDataSource();
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-//        String sql = "INSERT INTO data_persewaan_studio_musik VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String sql = "INSERT INTO data_persewaan_studio_musik (KODE_SEWA, KODE_STUDIO, NAMA_PENYEWA, NOMOR_TELEPON, TANGGAL_SEWA, JAM_SEWA, JAM_SELESAI, BIAYA_PELUNASAN, STATUS_PELUNASAN) "
-                + "VALUES (?, ?, ?, ?, ?, TO_DATE(?, 'HH24:MI'), TO_DATE(?, 'HH24:MI'), ?, ?)";
+                + "VALUES ("
+                + "(SELECT to_char((max(kode_sewa)) + 1, 'FM099999') FROM data_persewaan_studio_musik), "
+                + "?, ?, ?, ?, TO_DATE(?, 'HH24:MI'), TO_DATE(?, 'HH24:MI'), ?, ?)";
+        
+        System.out.println(sql);
 
         jdbcTemplate.update(sql,
                 new Object[]{
-                    pDataPersewaanStudioMusik.getmKodeSewa(),
                     pDataPersewaanStudioMusik.getmKodeStudio(),
                     pDataPersewaanStudioMusik.getmNamaPenyewa(),
                     pDataPersewaanStudioMusik.getmNomorTeleponPenyewa(),
                     pDataPersewaanStudioMusik.getmTanggalSewa(),
                     pDataPersewaanStudioMusik.getmJamSewa(),
-                    pDataPersewaanStudioMusik.getmDurasi(),
+                    pDataPersewaanStudioMusik.getmJamSewa(),
                     pDataPersewaanStudioMusik.getmBiayaPelunasan(),
                     pDataPersewaanStudioMusik.getmStatusPelunasan()
                 });
+        
+        pDataPersewaanStudioMusik.setmKodeSewa(jdbcTemplate.queryForObject("SELECT to_char(max(kode_sewa), 'FM099999') FROM data_persewaan_studio_musik", String.class));
+        
+        hitungJamSelesai(pDataPersewaanStudioMusik);
     }
 
     public static List<DataPersewaanStudioMusik> getDataList() {
@@ -157,15 +193,15 @@ public class DataPersewaanStudioMusik {
     public static boolean cekKetersediaanJadwal(DataPersewaanStudioMusik pDataPersewaanStudioMusik) {
         DataSource dataSource = DatabaseConnection.getmDataSource();
         List<DataPersewaanStudioMusik> pegawaiList = new ArrayList<DataPersewaanStudioMusik>();
-        
+
         String kodeStudio = pDataPersewaanStudioMusik.getmKodeStudio();
         String tanggalSewa = pDataPersewaanStudioMusik.getmTanggalSewa();
         String jamSewa = pDataPersewaanStudioMusik.getmJamSewa();
         String jamSelesai = pDataPersewaanStudioMusik.getmJamSelesai();
 
         String sql = "SELECT * FROM DATA_PERSEWAAN_STUDIO_MUSIK WHERE "
-                + "kode_studio = '"+kodeStudio+"' "
-                + "AND tanggal_sewa = '"+tanggalSewa+"' "
+                + "kode_studio = '" + kodeStudio + "' "
+                + "AND tanggal_sewa = '" + tanggalSewa + "' "
                 + "AND ("
                 + "to_char(jam_sewa,'HH24:MI') "
                 + "BETWEEN '" + jamSewa + "' AND '" + jamSelesai + "' "
@@ -173,7 +209,7 @@ public class DataPersewaanStudioMusik {
                 + "(to_char(jam_selesai,'HH24:MI') > '" + jamSewa + "' AND "
                 + "to_char(jam_sewa,'HH24:MI') < '" + jamSelesai + "')"
                 + ")";
-        
+
         System.out.println(sql);
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
