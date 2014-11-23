@@ -286,8 +286,8 @@ public class DataPersewaanStudioMusik {
                 dataPersewaanStudioMusik.setmNomorTeleponPenyewa(rs.getString(4));
                 dataPersewaanStudioMusik.setmTanggalSewa(rs.getString(5));
                 dataPersewaanStudioMusik.setmJamSewa(rs.getString(6));
-                dataPersewaanStudioMusik.setmDurasi(rs.getInt(7));
-                dataPersewaanStudioMusik.setmBiayaPelunasan(rs.getInt(8));
+                dataPersewaanStudioMusik.setmJamSelesai(rs.getString(7));
+                dataPersewaanStudioMusik.setmBiayaPelunasan(Integer.parseInt(rs.getString(8)));
                 dataPersewaanStudioMusik.setmStatusPelunasan(rs.getString(9));
 
                 return dataPersewaanStudioMusik;
