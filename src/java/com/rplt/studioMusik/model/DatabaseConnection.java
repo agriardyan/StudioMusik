@@ -18,32 +18,18 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
  * @author Agustinus Agri
  */
 public class DatabaseConnection {
-    
-    private static Connection mConnection;
-    private static DataSource mDataSource;
 
     public DatabaseConnection() {
+    }
+
+    public static DataSource getmDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();  
         dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");  
         dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
         dataSource.setUsername("mhs125314109");
         dataSource.setPassword("mhs125314109");
         
-        try {
-            mConnection = dataSource.getConnection();
-            mDataSource = dataSource;
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }
-
-    public static Connection getmConnection() {
-        return mConnection;
-    }
-
-    public static DataSource getmDataSource() {
-        return mDataSource;
+        return dataSource;
     }
     
 }

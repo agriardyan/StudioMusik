@@ -29,18 +29,49 @@ public class TestClass {
         //cek ketersediaan
         
         DataPersewaanStudioMusik dpsm = new DataPersewaanStudioMusik();
-        dpsm.setmKodeStudio("101");
-        dpsm.setmTanggalSewa("11-NOV-14");
-        dpsm.setmJamSewa("10:00:00");
-        dpsm.setmJamSelesai("13:00:00");
+        String generatedKodeSewa = dpsm.getGeneratedKodeSewa();
+        System.out.println(generatedKodeSewa);
         
-        boolean testCekKetersediaanJadwal = TestClass.testCekKetersediaanJadwal(dpsm);
-        System.out.println(testCekKetersediaanJadwal);
+        simpanData();
+        
+        getDataList();
+        
+//        dpsm.setmKodeStudio("101");
+//        dpsm.setmTanggalSewa("11-NOV-14");
+//        dpsm.setmJamSewa("10:00:00");
+////        dpsm.setmDurasi("13:00:00");
+//        
+//        boolean testCekKetersediaanJadwal = TestClass.testCekKetersediaanJadwal(dpsm);
+//        System.out.println(testCekKetersediaanJadwal);
     }
     
     public static boolean testCekKetersediaanJadwal(DataPersewaanStudioMusik pDataPersewaanStudioMusik)
     {
         return DataPersewaanStudioMusik.cekKetersediaanJadwal(pDataPersewaanStudioMusik);
+    }
+    
+    public static void simpanData()
+    {
+        DataPersewaanStudioMusik dpsm = new DataPersewaanStudioMusik();
+        dpsm.setmKodeStudio("103");
+        dpsm.setmNamaPenyewa("John");
+        dpsm.setmNomorTeleponPenyewa("0856478945");
+        dpsm.setmTanggalSewa("18-NOV-14");
+        dpsm.setmJamSewa("18:00");
+        dpsm.setmDurasi(60);
+        dpsm.setmBiayaPelunasan(30000);
+        dpsm.setmStatusPelunasan("BOOKING");
+        
+        DataPersewaanStudioMusik.simpanData(dpsm);
+        
+    }
+    
+    public static void getDataList()
+    {
+        List<DataPersewaanStudioMusik> dataList = DataPersewaanStudioMusik.getDataList();
+        for (int i = 0; i < dataList.size(); i++) {
+            System.out.println(dataList.get(i).getmKodeSewa() + "\t" + dataList.get(i).getmNamaPenyewa());
+        }
     }
     
 }
