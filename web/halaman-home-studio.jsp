@@ -7,19 +7,23 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <style>
-        @font-face{
-            font-family: "Amplify_PersonalUseOnly";
-            font-weight: bold;
-            font-size: large;
-            src: url('font/Amplify_PersonalUseOnly.ttf');
-        }
-    </style>
+    <%
+    if(null!=request.getParameter("commit")){
+        
+    }
+    %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>SMS</title>
         <link rel="shortcut icon" href="img/" type="image/png">
         <link href="semantic-ui/packaged/css/semantic.css" rel="stylesheet" type="text/css">
+        <style>
+            @font-face{
+                font-family: "Amplify_PersonalUseOnly";
+                font-weight: bold;
+                src: url('font/Amplify_PersonalUseOnly.ttf');
+            }
+        </style>
     </head>
     <body style="
           background-image: url('img/Studio.jpg'); 
@@ -32,15 +36,14 @@
             <div class="row">
                 <div class="six wide column">
                     <div class="ui basic segment" style="
-                         width: 90%; 
+                         /*width: 90%;*/ 
                          position: absolute;">
                         <form method="POST">
-                            <h1 style="font-family: 'Amplify_PersonalUseOnly'; font-size: 500%; color: white">
+                            <h1 style="font-family: 'Amplify_PersonalUseOnly'; font-size: 600%; color: white">
                                 Sabha Music Studio
                             </h1>
                             <div class="form segment" id="mtixSignin">
                                 <div class="field">
-                                    <!--div class="ui ribbon label">Username</div-->
                                     <div class="ui left labeled icon input">
                                         <input name="username" type="text" placeholder="Username">
                                         <i class="user icon"></i>
@@ -48,7 +51,6 @@
                                 </div>
                                 <br>
                                 <div class="field">
-                                    <!--div class="ui ribbon label">Password</div-->
                                     <div class="ui left labeled icon input">
                                         <input name="password" type="password" placeholder="Password">
                                         <i class="lock icon"></i>
@@ -56,16 +58,15 @@
                                 </div>
                                 <br>
                                 <div class="field">
-                                    <!--div class="ui ribbon label">Connect as</div-->
-                                    <label style="font-family:  fantasy; color: white">Operator </label>
-                                    <div class="ui toggle checkbox">
-                                        <input id="check1" type="checkbox">
-                                        <label for="check1" style="font-family:  fantasy; color: white">Admin</label>
+                                    <div class="ui selection dropdown">
+                                    <input name="role" type="hidden" id="role">
+                                    <div class="default text">Connect As</div>
+                                    <i class="dropdown icon"></i>
+                                    <div class="menu">
+                                        <div class="item" data-value="admin" >Admin</div>
+                                        <div class="item" data-value="operator" >Operator</div>
                                     </div>
-                                    <!--div class="ui toggle checkbox">
-                                        <input id="check2" type="checkbox">
-                                        <label for="check2" style="font-family:  fantasy; color: white">Operator</label>
-                                    </div-->
+                                </div>
                                 </div>
                                 <br>
                                 <div class="field">
@@ -81,6 +82,7 @@
         <script src="semantic-ui/packaged/javascript/semantic.js" type="text/javascript"></script>
         <script type="text/javascript">
             $(document).ready(function() {
+                $('.ui.dropdown').dropdown();
             });
         </script>
     </body>

@@ -1,144 +1,180 @@
 <%-- 
-    Document   : halaman-utama-operator
-    Created on : Nov 15, 2014, 11:59:58 PM
-    Author     : root
+    Document   : halaman-utama
+    Created on : Nov 22, 2014, 9:16:05 AM
+    Author     : Lorencius
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+    <%
+        if (null != request.getParameter("commit")) {
+            out.print(request.getParameter("studio"));
+            out.print(request.getParameter("tanggalSewa"));
+        }
+    %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="semantic-ui/packaged/css/semantic.css" rel="stylesheet" type="text/css">
-        <link href="date/jquery.datepick.css" rel="stylesheet" type="text/css">
+        <link href="date/redmond.datepick.css" rel="stylesheet" type="text/css">
         <link href="jclockpicker/jquery-clockpicker.min.css" rel="stylesheet" type="text/css">
         <title>Halaman Utama Operator</title>
     </head>
     <body>
+        <!--Menu bar-->
+        <div class="container">
+            <div class="ui inverted menu">
+                <a class="active item" href="halaman-utama.jsp">
+                    <i class="book icon"></i> BOOKING
+                </a>
+                <a class="item" href="halaman-pelunasan.jsp">
+                    <i class="money icon"></i> TRANSAKSI PELUNASAN
+                </a>
+                <div class="right menu">
+                    <form method="POST">
+                        <div class="ui dropdown link item">
+                            <i class="user icon"></i> OPERATOR <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <table class="ui basic table">
+                                    <tr>
+                                        <td>Nama</td>
+                                        <td>${name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td >ID</td>
+                                        <td>${username}</td>
+                                    </tr>
+                                </table>
+                                <input class="ui fluid tiny submit button" type="submit" name="logoutAd" value="Logout">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--End of Menu bar-->
 
-        <div class="ui menu">
-            <a class="item" href="#">
-                <i class="book icon"></i> BOOKING
-            </a>
-            <a class="item" href="#">
-                <i class="money icon"></i> TRANSAKSI PELUNASAN
-            </a>
-            <div class="right menu">
+            <h3 class="ui black inverted center aligned top attached header">Cek Ketersediaan Jadwal</h3>
+            <div class="ui bottom attached segment">
                 <form method="POST">
-                    <div class="ui selection dropdown link item">
-                        <i class="user icon"></i> OPERATOR <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <table class="ui basic table">
-                                <tr>
-                                    <td>Nama</td>
-                                    <td>${name}</td>
-                                </tr>
-                                <tr>
-                                    <td >ID</td>
-                                    <td>${username}</td>
-                                </tr>
-                            </table>
-                            <input class="ui fluid tiny submit button" type="submit" name="logoutAd" value="Logout">
+                    <div id="formCek" class="ui two column middle aligned relaxed grid basic segment">
+                        <div class="column">
+                            <div class="ui form basic segment">
+                                <div class="two fields">
+                                    <div class="field">
+                                        <!--<label>Tanggal Sewa</label>-->
+                                        <div class="ui left labeled icon input">
+                                            <input id="popupDatepicker" placeholder="Tanggal Sewa" type="text" name="tanggalSewa">
+                                            <i class="calendar icon"></i>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <!--<label>Jam Sewa</label>-->
+                                        <div class="ui left labeled icon input">
+                                            <input id="popupClockpicker" placeholder="Jam Sewa" type="text" name="jamSewa">
+                                            <i class="time icon"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="two fields">
+                                    <div class="field">
+                                        <!--<label>Studio</label>-->
+                                        <!--                                <div class="ui left labeled icon input">
+                                                                            <input placeholder="Studio" type="password">
+                                                                            <i class="music icon"></i>
+                                                                        </div>-->
+                                        <div class="ui fluid selection dropdown">
+                                            <input name="studio" type="hidden" id="noStudio">
+                                            <div class="default text">Studio</div>
+                                            <i class="dropdown icon"></i>
+                                            <div class="menu">
+                                                <div class="item" data-value="1" >Studio 1</div>
+                                                <div class="item" data-value="2" >Studio 2</div>
+                                                <div class="item" data-value="3" >Studio 3</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <!--<label>Durasi Sewa</label>-->
+                                        <div class="ui left labeled icon input">
+                                            <input placeholder="Durasi Sewa" type="text" name="durasiSewa">
+                                            <i class="time icon"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui vertical divider">
+                        </div>
+                        <div class="column">
+                            <div class="ui form basic segment">
+                                <div class="two fields">
+                                    <div class="field">
+                                        <input type="submit" name="commit" class="big green ui fluid button" value="Cek Jadwal">
+                                        <!--                                    Cek Jadwal
+                                                                        </div>-->
+                                    </div>
+                                    <div class="field">
+                                        <h6>if(tersedia)Jadwal Tersedia</h6>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
 
-        <h3 class="ui top center aligned attached inverted blue block header">
-            Cek Ketersediaan Jadwal
-        </h3>
-        <br>
-        <div class="ui two column middle aligned relaxed grid basic segment">
-            <div class="ui two column" id="checkData">
-                <table>
-                    <thead>
-                        <tr>
-                            <td><div class="ui purple block label">Tanggal Sewa</div></td>
-                            <td colspan="2"><div class="ui purple block label">Jam Sewa & Durasi</div></td>
-                            <td><div class="ui purple block label">Studio</div></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input type="text" id="popupDatepicker" placeholder="Tanggal Sewa"></td>
-                            <td><input id="input-a" value="" data-default="00:00" placeholder="Jam Sewa"></td>
-                            <td><input name="durasi" value="" type="text" placeholder="Durasi Sewa"></td>
-                            <td><select class="ui selection dropdown">
-                                    <option>Studio 1</option>
-                                    <option>Studio 2</option>
-                                    <option>Studio 3</option>
-                                </select></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="ui vertical divider"></div>
-            <div class="center aligned column">
-                <div class="huge green ui labeled icon button">
-                    <i class="signup icon"></i>
-                    Cek Ketersediaan Jadwal
-                </div>
-                <h6>if(tersedia) prompt message "JADWAL TERSEDIA" disini </h6>
-            </div>
-        </div>
-        <div class="ui horizontal divider"></div>
 
-        <h3 class="ui top center aligned attached inverted blue block header">
-            Pencatatan Data Sewa
-        </h3>
-
-        <div class="ui form segment">
-            <div class="field">
-                <label>Nama Penyewa</label>
-                <div class="ui left labeled icon input">
-                    <input name="penyewa" type="text" placeholder="Nama Penyewa">
-                    <i class="user icon"></i>
+        <div class="ui two column grid">
+            <div class="column">
+                <h3 class="ui black inverted center aligned top attached header">Pemesanan</h3>
+                <div class="ui form attached segment">
+                    <div class="field">
+                        <input type="text" name="nama" placeholder="Nama Pemesan"> 
+                    </div>
+                    <div class="field">
+                        <input type="text" name="notelp" placeholder="Nomor Telepon Pemesan">
+                    </div>
                 </div>
             </div>
-            <div class="field">
-                <label>Nomor Telepon Penyewa</label>
-                <div class="ui left labeled icon input">
-                    <input name="telepon" type="text" placeholder="Nomor Telepon Penyewa">
-                    <i class="phone icon"></i>
-                </div>
-            </div>
-            <div class="field">
-                <label>Nomor Studio</label>
-                <div class="ui fluid selection dropdown" id="drop">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">Nomor Studio</div>
-                    <div class="menu">
-                        <div class="item" data-value="1" data-text="Studio 1">
-                            Studio 1
-                        </div>
-                        <div class="item" data-value="2" data-text="Studio 2">
-                            Studio 2
-                        </div>
-                        <div class="item" data-value="3" data-text="Studio 3">
-                            Studio 3
-                        </div>
+            <div class="column">
+                <h3 class="ui black inverted center aligned top attached header">Pemesanan</h3>
+                <div class="ui form attached segment">
+                    <div class="field">
+                        <input type="text" name="nama" placeholder="Nama Pemesan"> 
+                    </div>
+                    <div class="field">
+                        <input type="text" name="notelp" placeholder="Nomor Telepon Pemesan">
                     </div>
                 </div>
             </div>
         </div>
-        <script src="semantic-ui/packaged/javascript/semantic.js" type="text/javascript"></script>
+
+
         <script src="semantic-ui/packaged/javascript/jquery-2.1.1.js" type="text/javascript"></script>
+        <script src="semantic-ui/packaged/javascript/semantic.js" type="text/javascript"></script>
         <script src="date/jquery.plugin.js" type="text/javascript"></script>
         <script src="date/jquery.datepick.js" type="text/javascript"></script>
         <script src="jclockpicker/jquery-clockpicker.min.js" type="text/javascript"></script>
         <script type="text/javascript">
-            var originalstate = $('#checkData').clone();
-            $('#checkData').replaceWith(originalstate);
+            var originalState = $('#formCek').clone();
+            $('#formCek').replaceWith(originalState);
+
+            //            var clickStudio1 = function(){
+            //                document.getElementById("noStudio").val = "Studio 1";
+            //            };
+            //            var clickStudio2 = function(){
+            //                document.getElementById("noStudio").val = "Studio 2";
+            //            };
+            //            var clickStudio3 = function(){
+            //                document.getElementById("noStudio").val = "Studio 3";
+            //            };
+
             $(document).ready(function() {
-                $('#input-a').clockpicker({autoclose: true});
-                $('#popupDatepicker').datepick();
-                $('#drop').dropdown();
+                $('#popupClockpicker').clockpicker({autoclose: true});
+                $('#popupDatepicker').datepick({dateFormat: 'dd-M-yyyy'});
+                $('.ui.dropdown').dropdown();
             });
-//                $('#inlineDatepicker').datepick({onSelect: showDate});
-            function showDate(date) {
-                alert('The date chosen is ' + date);
-            }
         </script>
     </body>
 </html>
