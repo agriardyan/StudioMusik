@@ -28,41 +28,63 @@
             String durasiSewa = "";
             String namaPemesan = "";
             String noTelp = "";
+            String ketersediaan = "";
 
             if (null != request.getParameter("commit")) {
 
-                tanggal = request.getParameter("tanggalSewa");
-                jamSewa = request.getParameter("jamSewa");
-                kodeStudio = request.getParameter("studio");
-                durasiSewa = request.getParameter("durasiSewa");
-                session.setAttribute("tanggal", tanggal);
-                session.setAttribute("jamSewa", jamSewa);
-                session.setAttribute("kodeStudio", kodeStudio);
-                session.setAttribute("durasiSewa", durasiSewa);
-            }
-
-            if (null != request.getParameter("submit")) {
-
-                tanggal = request.getParameter("tanggalSewa");
-                jamSewa = request.getParameter("jamSewa");
-                kodeStudio = request.getParameter("studio");
-                durasiSewa = request.getParameter("durasiSewa");
-                namaPemesan = request.getParameter("namaPemesan");
-                noTelp = request.getParameter("noTelp");
-
                 DataPersewaanStudioMusik dpsm = new DataPersewaanStudioMusik();
-                dpsm.setmKodeStudio(kodeStudio);
-                dpsm.setmNamaPenyewa(namaPemesan);
-                dpsm.setmNomorTeleponPenyewa(noTelp);
-                dpsm.setmTanggalSewa(tanggal);
-                dpsm.setmJamSewa(jamSewa);
-                dpsm.setmDurasi(Integer.parseInt(durasiSewa));
-                dpsm.setmBiayaPelunasan(30000);
-                dpsm.setmStatusPelunasan("BOOKING");
 
-                DataPersewaanStudioMusik.simpanData(dpsm);
+                dpsm.setmTanggalSewa(request.getParameter("tanggalSewa"));
+                dpsm.setmJamSelesai(request.getParameter("jamSewa"));
+                dpsm.setmKodeStudio(request.getParameter("studio"));
+                dpsm.setmDurasi(Integer.parseInt(request.getParameter("durasiSewa")));
+
+                boolean cek = DataPersewaanStudioMusik.cekKetersediaanJadwal(dpsm);
+                
+                out.print(cek);
+                out.print(dpsm.getmJamSewa());
+
+                if (cek) {
+                    tanggal = request.getParameter("tanggalSewa");
+                    jamSewa = request.getParameter("jamSewa");
+                    kodeStudio = request.getParameter("studio");
+                    durasiSewa = request.getParameter("durasiSewa");
+
+                    session.setAttribute("tanggal", tanggal);
+                    session.setAttribute("jamSewa", jamSewa);
+                    session.setAttribute("kodeStudio", kodeStudio);
+                    session.setAttribute("durasiSewa", durasiSewa);
+                } else {
+                    out.print("<script type=\"text/javascript\">");
+                    out.print("alert(\"Jadwal tersebut tidak tersedia!\");");
+                    out.print("</script>");
+                    ketersediaan = "Pilih jadwal lain";
+                }
+
             }
-        %>
+
+//            if (null != request.getParameter("submit")) {
+//
+//                tanggal = request.getParameter("tanggalSewa");
+//                jamSewa = request.getParameter("jamSewa");
+//                kodeStudio = request.getParameter("studio");
+//                durasiSewa = request.getParameter("durasiSewa");
+//                namaPemesan = request.getParameter("namaPemesan");
+//                noTelp = request.getParameter("noTelp");
+//
+//                DataPersewaanStudioMusik dpsm = new DataPersewaanStudioMusik();
+//                dpsm.setmKodeStudio(kodeStudio);
+//                dpsm.setmNamaPenyewa(namaPemesan);
+//                dpsm.setmNomorTeleponPenyewa(noTelp);
+//                dpsm.setmTanggalSewa(tanggal);
+//                dpsm.setmJamSewa(jamSewa);
+//                dpsm.setmDurasi(Integer.parseInt(durasiSewa));
+//                dpsm.setmBiayaPelunasan(30000);
+//                dpsm.setmStatusPelunasan("BOOKING");
+//
+//                DataPersewaanStudioMusik.simpanData(dpsm);
+//            }
+%>
         <!--Menu bar-->
         <div class="container">
             <div class="ui menu">
@@ -105,7 +127,7 @@
                                     <div class="field">
                                         <!--<label>Tanggal Sewa</label>-->
                                         <div class="ui left labeled icon input">
-                                            <input id="popupDatepicker" placeholder="Tanggal Sewa" type="text" name="tanggalSewa" value="<%= tanggal %>">
+                                            <input id="popupDatepicker" placeholder="Tanggal Sewa" type="text" name="tanggalSewa" value="<%= tanggal%>">
                                             <i class="calendar icon"></i>
                                         </div>
                                     </div>
@@ -151,7 +173,7 @@
                                                                         </div>-->
                                     </div>
                                     <div class="field">
-                                        <h6>if(tersedia)Jadwal Tersedia</h6>
+                                        <h6><% out.print(ketersediaan); %></h6>
                                     </div>
                                 </div>
                             </div>
@@ -161,42 +183,30 @@
             </div>
         </div>
 
-
-        <div class="ui one column grid">
-            <div class="column">
-                <h3 class="ui black inverted center aligned top attached header">Pemesanan</h3>
-                <div class="ui form attached segment">
-                    <div class="field">
-                        <input type="text" name="namaPemesan" placeholder="Nama Pemesan"> 
-                    </div>
-                    <div class="field">
-                        <input type="text" name="noTelp" placeholder="Nomor Telepon Pemesan">
+        <form action="summary.jsp" method="POST">
+            <div class="ui one column grid">
+                <div class="column">
+                    <h3 class="ui black inverted center aligned top attached header">Pemesanan</h3>
+                    <div class="ui form attached segment">
+                        <div class="field">
+                            <input type="text" name="namaPemesan" placeholder="Nama Pemesan"> 
+                        </div>
+                        <div class="field">
+                            <input type="text" name="noTelp" placeholder="Nomor Telepon Pemesan">
+                        </div>
                     </div>
                 </div>
             </div>
-            <!--div class="column">
-                <h3 class="ui black inverted center aligned top attached header">Pemesanan</h3>
-                <div class="ui form attached segment">
+            <div class="ui three column grid">
+                <div class="column"></div>
+                <div class="column">
                     <div class="field">
-                        <input type="text" name="nama" placeholder="Nama Pemesan"> 
-                    </div>
-                    <div class="field">
-                        <input type="text" name="notelp" placeholder="Nomor Telepon Pemesan">
+                        <input type="submit" name="submit" class="big red ui fluid button" value="Submit">
                     </div>
                 </div>
-            </div-->
-
-        </div>
-
-        <div class="ui three column grid">
-            <div class="column"></div>
-            <div class="column">
-                <div class="field">
-                    <input type="submit" name="submit" class="big yellow ui fluid button" value="Submit">
-                </div>
+                <div class="column"></div>
             </div>
-            <div class="column"></div>
-        </div>
+        </form>
 
         <script src="semantic-ui/packaged/javascript/jquery-2.1.1.js" type="text/javascript"></script>
         <script src="semantic-ui/packaged/javascript/semantic.js" type="text/javascript"></script>

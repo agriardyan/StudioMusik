@@ -30,24 +30,24 @@ public class TestClass {
         //cek ketersediaan
         
         DataPersewaanStudioMusik dpsm = new DataPersewaanStudioMusik();
-        String generatedKodeSewa = dpsm.getGeneratedKodeSewa();
-        System.out.println(generatedKodeSewa);
+//        String generatedKodeSewa = dpsm.getGeneratedKodeSewa();
+//        System.out.println(generatedKodeSewa);
         
 //        simpanData();
         
-        getDataList();
-        
-        testLogin();
-        
-        getDataListByMonth("11", "2014");
-        
-//        dpsm.setmKodeStudio("101");
-//        dpsm.setmTanggalSewa("11-NOV-14");
-//        dpsm.setmJamSewa("10:00:00");
-////        dpsm.setmDurasi("13:00:00");
+//        getDataList();
 //        
-//        boolean testCekKetersediaanJadwal = TestClass.testCekKetersediaanJadwal(dpsm);
-//        System.out.println(testCekKetersediaanJadwal);
+//        testLogin();
+//        
+//        getDataListByMonth("Nov", "2014");
+        
+        dpsm.setmKodeStudio("103");
+        dpsm.setmTanggalSewa("20-NOV-14");
+        dpsm.setmJamSewa("14:00");
+        dpsm.setmDurasi(60);
+//        
+        boolean testCekKetersediaanJadwal = testCekKetersediaanJadwal(dpsm);
+        System.out.println(testCekKetersediaanJadwal);
     }
     
     public static boolean testCekKetersediaanJadwal(DataPersewaanStudioMusik pDataPersewaanStudioMusik)
@@ -58,18 +58,18 @@ public class TestClass {
     public static void simpanData()
     {
         DataPersewaanStudioMusik dpsm = new DataPersewaanStudioMusik();
-        dpsm.setmKodeStudio("103");
-        dpsm.setmNamaPenyewa("John");
-        dpsm.setmNomorTeleponPenyewa("0856478945");
-        dpsm.setmTanggalSewa("18-NOV-14");
+        dpsm.setmKodeStudio("101");
+        dpsm.setmNamaPenyewa("MISTER BRO");
+        dpsm.setmNomorTeleponPenyewa("085648612365");
+        dpsm.setmTanggalSewa("21-NOV-14");
         dpsm.setmJamSewa("18:00");
         dpsm.setmDurasi(60);
         dpsm.setmBiayaPelunasan(30000);
         dpsm.setmStatusPelunasan("BOOKING");
         
-//        DataPersewaanStudioMusik.simpanData(dpsm);
+        DataPersewaanStudioMusik.simpanData(dpsm);
         
-        
+        System.out.println("sukses menyimpan");
         
     }
     

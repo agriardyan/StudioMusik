@@ -9,8 +9,7 @@
 <!DOCTYPE html>
 <html>
     <%
-        if(session.getAttribute("username")!=null)
-        {
+        if (session.getAttribute("username") != null) {
             session.invalidate();
         }
     %>
@@ -36,7 +35,8 @@
           opacity: 1.0;">
 
 
-        <%            if (null != request.getParameter("commit")) {
+        <%
+            if (null != request.getParameter("commit")) {
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
                 String role = request.getParameter("role");
