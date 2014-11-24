@@ -39,6 +39,8 @@ public class TestClass {
         
         testLogin();
         
+        getDataListByMonth("11", "2014");
+        
 //        dpsm.setmKodeStudio("101");
 //        dpsm.setmTanggalSewa("11-NOV-14");
 //        dpsm.setmJamSewa("10:00:00");
@@ -65,7 +67,9 @@ public class TestClass {
         dpsm.setmBiayaPelunasan(30000);
         dpsm.setmStatusPelunasan("BOOKING");
         
-        DataPersewaanStudioMusik.simpanData(dpsm);
+//        DataPersewaanStudioMusik.simpanData(dpsm);
+        
+        
         
     }
     
@@ -74,7 +78,15 @@ public class TestClass {
         List<DataPersewaanStudioMusik> dataList = DataPersewaanStudioMusik.getDataList();
         for (int i = 0; i < dataList.size(); i++) {
             System.out.println(dataList.get(i).getmKodeSewa() + "\t" + dataList.get(i).getmNamaPenyewa());
-        }
+        }           
+    }
+    
+    public static void getDataListByMonth(String bulan, String tahun)
+    {
+        List<DataPersewaanStudioMusik> dataList = DataPersewaanStudioMusik.getDataListByMonth(bulan, tahun);
+        for (int i = 0; i < dataList.size(); i++) {
+            System.out.println(dataList.get(i).getmKodeSewa() + "\t" + dataList.get(i).getmNamaPenyewa());
+        }   
     }
     
     public static void testLogin()

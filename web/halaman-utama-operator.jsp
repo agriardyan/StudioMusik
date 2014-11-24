@@ -22,14 +22,33 @@
     </head>
     <body>
         <%
+            String tanggal = "";
+            String jamSewa = "";
+            String kodeStudio = "";
+            String durasiSewa = "";
+            String namaPemesan = "";
+            String noTelp = "";
+
+            if (null != request.getParameter("commit")) {
+
+                tanggal = request.getParameter("tanggalSewa");
+                jamSewa = request.getParameter("jamSewa");
+                kodeStudio = request.getParameter("studio");
+                durasiSewa = request.getParameter("durasiSewa");
+                session.setAttribute("tanggal", tanggal);
+                session.setAttribute("jamSewa", jamSewa);
+                session.setAttribute("kodeStudio", kodeStudio);
+                session.setAttribute("durasiSewa", durasiSewa);
+            }
+
             if (null != request.getParameter("submit")) {
 
-                String tanggal = request.getParameter("tanggalSewa");
-                String jamSewa = request.getParameter("jamSewa");
-                String kodeStudio = request.getParameter("studio");
-                String durasiSewa = request.getParameter("durasiSewa");
-                String namaPemesan = request.getParameter("namaPemesan");
-                String noTelp = request.getParameter("noTelp");
+                tanggal = request.getParameter("tanggalSewa");
+                jamSewa = request.getParameter("jamSewa");
+                kodeStudio = request.getParameter("studio");
+                durasiSewa = request.getParameter("durasiSewa");
+                namaPemesan = request.getParameter("namaPemesan");
+                noTelp = request.getParameter("noTelp");
 
                 DataPersewaanStudioMusik dpsm = new DataPersewaanStudioMusik();
                 dpsm.setmKodeStudio(kodeStudio);
@@ -86,14 +105,14 @@
                                     <div class="field">
                                         <!--<label>Tanggal Sewa</label>-->
                                         <div class="ui left labeled icon input">
-                                            <input id="popupDatepicker" placeholder="Tanggal Sewa" type="text" name="tanggalSewa">
+                                            <input id="popupDatepicker" placeholder="Tanggal Sewa" type="text" name="tanggalSewa" value="<%= tanggal %>">
                                             <i class="calendar icon"></i>
                                         </div>
                                     </div>
                                     <div class="field">
                                         <!--<label>Jam Sewa</label>-->
                                         <div class="ui left labeled icon input">
-                                            <input id="popupClockpicker" placeholder="Jam Sewa" type="text" name="jamSewa">
+                                            <input id="popupClockpicker" placeholder="Jam Sewa" type="text" name="jamSewa" value="<%= jamSewa%>">
                                             <i class="time icon"></i>
                                         </div>
                                     </div>
@@ -105,16 +124,16 @@
                                             <div class="default text">Studio</div>
                                             <i class="dropdown icon"></i>
                                             <div class="menu">
-                                                <div class="item" data-value="1" >Studio 1</div>
-                                                <div class="item" data-value="2" >Studio 2</div>
-                                                <div class="item" data-value="3" >Studio 3</div>
+                                                <div class="item" data-value="101" >Studio 1</div>
+                                                <div class="item" data-value="102" >Studio 2</div>
+                                                <div class="item" data-value="103" >Studio 3</div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="field">
                                         <!--<label>Durasi Sewa</label>-->
                                         <div class="ui left labeled icon input">
-                                            <input placeholder="Durasi Sewa" type="text" name="durasiSewa">
+                                            <input placeholder="Durasi Sewa" type="text" name="durasiSewa" value="<%= durasiSewa%>">
                                             <i class="time icon"></i>
                                         </div>
                                     </div>
