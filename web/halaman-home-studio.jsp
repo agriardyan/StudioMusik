@@ -8,6 +8,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+    <%
+        if(session.getAttribute("username")!=null)
+        {
+            session.invalidate();
+        }
+    %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>SMS</title>
@@ -30,8 +36,7 @@
           opacity: 1.0;">
 
 
-        <%
-            if (null != request.getParameter("commit")) {
+        <%            if (null != request.getParameter("commit")) {
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
                 String role = request.getParameter("role");

@@ -8,6 +8,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+    <%
+        if (request.getParameter("logoutAd") != null) {
+            response.sendRedirect("halaman-home-studio.jsp");
+        }
+    %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="semantic-ui/packaged/css/semantic.css" rel="stylesheet" type="text/css">
@@ -174,30 +179,30 @@
             <div class="column"></div>
         </div>
 
-    <script src="semantic-ui/packaged/javascript/jquery-2.1.1.js" type="text/javascript"></script>
-    <script src="semantic-ui/packaged/javascript/semantic.js" type="text/javascript"></script>
-    <script src="date/jquery.plugin.js" type="text/javascript"></script>
-    <script src="date/jquery.datepick.js" type="text/javascript"></script>
-    <script src="jclockpicker/jquery-clockpicker.min.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        var originalState = $('#formCek').clone();
-        $('#formCek').replaceWith(originalState);
+        <script src="semantic-ui/packaged/javascript/jquery-2.1.1.js" type="text/javascript"></script>
+        <script src="semantic-ui/packaged/javascript/semantic.js" type="text/javascript"></script>
+        <script src="date/jquery.plugin.js" type="text/javascript"></script>
+        <script src="date/jquery.datepick.js" type="text/javascript"></script>
+        <script src="jclockpicker/jquery-clockpicker.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            var originalState = $('#formCek').clone();
+            $('#formCek').replaceWith(originalState);
 
-        //            var clickStudio1 = function(){
-        //                document.getElementById("noStudio").val = "Studio 1";
-        //            };
-        //            var clickStudio2 = function(){
-        //                document.getElementById("noStudio").val = "Studio 2";
-        //            };
-        //            var clickStudio3 = function(){
-        //                document.getElementById("noStudio").val = "Studio 3";
-        //            };
+            //            var clickStudio1 = function(){
+            //                document.getElementById("noStudio").val = "Studio 1";
+            //            };
+            //            var clickStudio2 = function(){
+            //                document.getElementById("noStudio").val = "Studio 2";
+            //            };
+            //            var clickStudio3 = function(){
+            //                document.getElementById("noStudio").val = "Studio 3";
+            //            };
 
-        $(document).ready(function() {
-            $('#popupClockpicker').clockpicker({autoclose: true});
-            $('#popupDatepicker').datepick({dateFormat: 'dd-M-yyyy'});
-            $('.ui.dropdown').dropdown();
-        });
-    </script>
-</body>
+            $(document).ready(function() {
+                $('#popupClockpicker').clockpicker({autoclose: true});
+                $('#popupDatepicker').datepick({dateFormat: 'dd-M-yyyy'});
+                $('.ui.dropdown').dropdown();
+            });
+        </script>
+    </body>
 </html>

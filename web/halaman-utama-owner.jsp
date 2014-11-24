@@ -4,9 +4,17 @@
     Author     : Agustinus Agri
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="com.rplt.studioMusik.model.DataPersewaanStudioMusik"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+
+    <%
+        if (request.getParameter("logoutAd") != null) {
+            response.sendRedirect("halaman-home-studio.jsp");
+        }
+    %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="semantic-ui/packaged/css/semantic.css" rel="stylesheet" type="text/css">
@@ -16,9 +24,11 @@
     </head>
     <body>
         <%
+            String bulan = null;
+            String tahun = null;
             if (null != request.getParameter("commit")) {
-                String bulan = request.getParameter("bulan");
-                String tahun = request.getParameter("tahunSewa");
+                bulan = request.getParameter("bulan");
+                tahun = request.getParameter("tahunSewa");
             }
         %>
         <!--Menu bar-->
@@ -27,9 +37,9 @@
                 <a class="active item" href="halaman-utama-owner.jsp">
                     <i class="book icon"></i> LIHAT LAPORAN
                 </a>
-                <a class="item" href="">
+                <!--a class="item" href="">
                     <i class="money icon"></i> UBAH HARGA
-                </a>
+                </a-->
                 <div class="right menu">
                     <form method="POST">
                         <div class="ui dropdown link item">
@@ -53,7 +63,7 @@
             </div>
             <!--End of Menu bar-->
 
-            <h3 class="ui black inverted center aligned top attached header">Laporan Bulanan</h3>
+            <h3 class="ui blue inverted center aligned top attached header">Laporan Bulanan</h3>
             <div class="ui bottom attached segment">
                 <form method="POST">
                     <div id="formCek" class="ui two column middle aligned relaxed grid basic segment">
@@ -105,14 +115,49 @@
 
         <div class="ui one column grid">
             <div class="column">
-                <h3 class="ui black inverted center aligned top attached header">Laporan</h3>
+                <h3 class="ui blue inverted center aligned top attached header">Laporan</h3>
                 <div class="ui form attached segment">
-                    <div class="field">
-                        <input type="text" name="nama" placeholder="Nama Pemesan"> 
-                    </div>
-                    <div class="field">
-                        <input type="text" name="notelp" placeholder="Nomor Telepon Pemesan">
-                    </div>
+                    <%
+                        if (request.getParameter("commit") != null) {
+                            List<DataPersewaanStudioMusik> dataSewaList = DataPersewaanStudioMusik.getDataListByMonth(bulan, tahun);
+
+                    %> 
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th>KODE SEWA</th>
+                                <th>KODE STUDIO</th>
+                                <th>NAMA PENYEWA</th>
+                                <th>NOMOR TELEPON</th>
+                                <th>TANGGAL SEWA</th>
+                                <th>JAM SEWA</th>
+                                <th>JAM SELESAI</th>
+                                <th>BIAYA PELUNASAN</th>
+                                <th>STATUS PELUNASAN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%                                for (int i = 0; i < dataSewaList.size(); i++) {
+                            %>
+                            <tr>
+                                <td><%= dataSewaList.get(i).getmKodeSewa()%></td>
+                                <td><%= dataSewaList.get(i).getmKodeStudio()%></td>
+                                <td><%= dataSewaList.get(i).getmNamaPenyewa()%></td>
+                                <td><%= dataSewaList.get(i).getmNomorTeleponPenyewa()%></td>
+                                <td><%= dataSewaList.get(i).getmTanggalSewa()%></td>
+                                <td><%= dataSewaList.get(i).getmJamSewa()%></td>
+                                <td><%= dataSewaList.get(i).getmJamSelesai()%></td>
+                                <td><%= dataSewaList.get(i).getmBiayaPelunasan()%></td>
+                                <td><%= dataSewaList.get(i).getmStatusPelunasan()%></td>
+                            </tr>
+
+                            <%
+                                    }
+                                }
+                            %>
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
 
@@ -122,7 +167,7 @@
             <div class="column"></div>
             <div class="column">
                 <div class="field">
-                    <input type="submit" name="commit" class="big yellow ui fluid button" value="Cetak Laporan">
+                    <!--input type="submit" name="cetak" class="big yellow ui fluid button" value="Cetak Laporan"-->
                 </div>
             </div>
             <div class="column"></div>

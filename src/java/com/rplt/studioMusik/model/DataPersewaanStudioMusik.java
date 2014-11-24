@@ -189,8 +189,20 @@ public class DataPersewaanStudioMusik {
         pegawaiList = jdbcTemplate.query(sql, new DataPersewaanStudioMusikRowMapper());
         return pegawaiList;
     }
+    
+    public static List<DataPersewaanStudioMusik> getDataListByMonth(String pBulan, String pTahun) {
+        DataSource dataSource = DatabaseConnection.getmDataSource();
+        List<DataPersewaanStudioMusik> pegawaiList = new ArrayList<DataPersewaanStudioMusik>();
+
+        String sql = "SELECT * FROM data_persewaan_studio_musik WHERE to_char(tanggal_sewa, 'mm-yyyy') = '"+pBulan+"-"+pTahun+"'";
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        pegawaiList = jdbcTemplate.query(sql, new DataPersewaanStudioMusikRowMapper());
+        return pegawaiList;
+    }
 
     public static boolean cekKetersediaanJadwal(DataPersewaanStudioMusik pDataPersewaanStudioMusik) {
+        
         DataSource dataSource = DatabaseConnection.getmDataSource();
         List<DataPersewaanStudioMusik> pegawaiList = new ArrayList<DataPersewaanStudioMusik>();
 
