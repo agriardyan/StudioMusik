@@ -16,8 +16,8 @@
     </head>
     <body>
         <!--Menu bar-->
-        <div class="ui inverted menu">
-            <a class="item" href="halaman-utama.jsp">
+        <div class="ui menu">
+            <a class="item" href="halaman-utama-operator.jsp">
                 <i class="book icon"></i> BOOKING
             </a>
             <a class="active item" href="halaman-pelunasan.jsp">
@@ -46,8 +46,8 @@
         </div>
         <!--End of Menu bar-->
         
-        <script src="semantic-ui/packaged/javascript/semantic.js" type="text/javascript"></script>
         <script src="semantic-ui/packaged/javascript/jquery-2.1.1.js" type="text/javascript"></script>
+        <script src="semantic-ui/packaged/javascript/semantic.js" type="text/javascript"></script>
         <script src="date/jquery.plugin.js" type="text/javascript"></script>
         <script src="date/jquery.datepick.js" type="text/javascript"></script>
         <script src="jclockpicker/jquery-clockpicker.min.js" type="text/javascript"></script>

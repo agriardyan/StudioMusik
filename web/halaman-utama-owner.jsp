@@ -33,7 +33,7 @@
         %>
         <!--Menu bar-->
         <div class="container">
-            <div class="ui inverted menu">
+            <div class="ui menu">
                 <a class="active item" href="halaman-utama-owner.jsp">
                     <i class="book icon"></i> LIHAT LAPORAN
                 </a>
@@ -63,7 +63,7 @@
             </div>
             <!--End of Menu bar-->
 
-            <h3 class="ui blue inverted center aligned top attached header">Laporan Bulanan</h3>
+            <h3 class="ui black inverted center aligned top attached header">Laporan Bulanan</h3>
             <div class="ui bottom attached segment">
                 <form method="POST">
                     <div id="formCek" class="ui two column middle aligned relaxed grid basic segment">
@@ -115,7 +115,7 @@
 
         <div class="ui one column grid">
             <div class="column">
-                <h3 class="ui blue inverted center aligned top attached header">Laporan</h3>
+                <h3 class="ui black inverted center aligned top attached header">Laporan</h3>
                 <div class="ui form attached segment">
                     <%
                         if (request.getParameter("commit") != null) {

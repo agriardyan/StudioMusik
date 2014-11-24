@@ -65,7 +65,7 @@
         %>
         <!--Menu bar-->
         <div class="container">
-            <div class="ui inverted menu">
+            <div class="ui menu">
                 <a class="active item" href="halaman-utama-operator.jsp">
                     <i class="book icon"></i> BOOKING
                 </a>
@@ -120,7 +120,7 @@
                                 <div class="two fields">
                                     <div class="field">
                                         <div class="ui fluid selection dropdown">
-                                            <input name="studio" type="hidden" id="noStudio">
+                                            <input name="studio" type="hidden" id="noStudio" value="<%= kodeStudio%>">
                                             <div class="default text">Studio</div>
                                             <i class="dropdown icon"></i>
                                             <div class="menu">
