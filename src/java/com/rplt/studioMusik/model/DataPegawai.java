@@ -145,15 +145,16 @@ public class DataPegawai {
         return pegawaiList;
     }
     
-    public static List<DataPegawai> getDataListByUsername (String pUsername)
+    public static String getDataListByUsername (String pUsername)
     {
         DataSource dataSource = DatabaseConnection.getmDataSource();
-        List<DataPegawai> pegawaiList = new ArrayList<DataPegawai>();
+//        List<DataPegawai> pegawaiList = new ArrayList<DataPegawai>();
+        String pegawaiList = null;
 
-        String sql = "SELECT nama_pegawai FROM pegawai_studio_musik WHERE username_pegawai = '"+ pUsername+"'";
+        String sql = "SELECT nama_pegawai FROM pegawai_studio_musik WHERE username_pegawai = ?";
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        pegawaiList = jdbcTemplate.query(sql, new PegawaiRowMapper());
+        pegawaiList = jdbcTemplate.queryForObject(sql, String.class, pUsername);
         return pegawaiList;
     }
 

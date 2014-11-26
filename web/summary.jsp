@@ -1,7 +1,7 @@
 <%-- 
     Document   : summary
     Created on : Nov 24, 2014, 7:48:45 PM
-    Author     : root
+    Author     : Agustinus Agri
 --%>
 
 <%@page import="com.rplt.studioMusik.model.DataPersewaanStudioMusik"%>
@@ -16,6 +16,7 @@
             String durasiSewa = "";
             String namaPemesan = "";
             String noTelp = "";
+            int biayaSewa = 0;
 
             if (null != request.getParameter("namaPemesan")) {
 
@@ -25,6 +26,7 @@
                 jamSewa = session.getAttribute("jamSewa").toString();
                 kodeStudio = session.getAttribute("kodeStudio").toString();
                 durasiSewa = session.getAttribute("durasiSewa").toString();
+                biayaSewa = Integer.parseInt(session.getAttribute("biayaSewa").toString());
 
                 DataPersewaanStudioMusik dpsm = new DataPersewaanStudioMusik();
                 dpsm.setmKodeStudio(kodeStudio);
@@ -33,7 +35,7 @@
                 dpsm.setmTanggalSewa(tanggal);
                 dpsm.setmJamSewa(jamSewa);
                 dpsm.setmDurasi(Integer.parseInt(durasiSewa));
-                dpsm.setmBiayaPelunasan(30000);
+                dpsm.setmBiayaPelunasan(biayaSewa);
                 dpsm.setmStatusPelunasan("BOOKING");
 
                 DataPersewaanStudioMusik.simpanData(dpsm);

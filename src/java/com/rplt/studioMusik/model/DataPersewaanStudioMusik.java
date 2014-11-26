@@ -114,7 +114,7 @@ public class DataPersewaanStudioMusik {
     public void setmStatusPelunasan(String mStatusPelunasan) {
         this.mStatusPelunasan = mStatusPelunasan;
     }
-    
+
     public void setmJamSelesai(String mJamSelesai) {
         this.mJamSelesai = mJamSelesai;
     }
@@ -137,7 +137,17 @@ public class DataPersewaanStudioMusik {
             return query;
         }
     }
+    
+    public static String hitungBiayaSewa(int pDurasi, String pKodeStudio)
+    {
+        DataSource dataSource = DatabaseConnection.getmDataSource();
 
+        String sql = "SELECT ? / 60 * tarif_per_jam FROM studio_musik WHERE kode_studio = ?";
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        String query = jdbcTemplate.queryForObject(sql, new Object[]{ pDurasi, pKodeStudio }, String.class);
+        return query;
+    }
 
     private static void hitungJamSelesai(DataPersewaanStudioMusik pDataPersewaanStudioMusik) {
         DataSource dataSource = DatabaseConnection.getmDataSource();
@@ -200,11 +210,37 @@ public class DataPersewaanStudioMusik {
         DataSource dataSource = DatabaseConnection.getmDataSource();
         List<DataPersewaanStudioMusik> pegawaiList = new ArrayList<DataPersewaanStudioMusik>();
 
-        String sql = "SELECT * FROM data_persewaan_studio_musik WHERE to_char(tanggal_sewa, 'MON-yyyy') = '" + pBulan.toUpperCase() + "-" + pTahun + "'";
+        String sql = "SELECT kode_sewa, kode_studio, nama_penyewa, nomor_telepon, to_char(tanggal_sewa, 'dd-FMMONTH-yyyy'), to_char(jam_sewa, 'HH24:MI'), to_char(jam_selesai, 'HH24:MI'), biaya_pelunasan, status_pelunasan "
+                + "FROM data_persewaan_studio_musik "
+                + "WHERE to_char(tanggal_sewa, 'mm-yyyy') = '" + pBulan + "-" + pTahun + "' ORDER BY kode_sewa ASC";
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         pegawaiList = jdbcTemplate.query(sql, new DataPersewaanStudioMusikRowMapper());
         return pegawaiList;
+    }
+    
+    public static List<DataPersewaanStudioMusik> getDataListByKode(String pKode) {
+        DataSource dataSource = DatabaseConnection.getmDataSource();
+        List<DataPersewaanStudioMusik> pegawaiList = new ArrayList<DataPersewaanStudioMusik>();
+
+        String sql = "SELECT kode_sewa, kode_studio, nama_penyewa, nomor_telepon, to_char(tanggal_sewa, 'dd-FMMONTH-yyyy'), to_char(jam_sewa, 'HH24:MI'), to_char(jam_selesai, 'HH24:MI'), biaya_pelunasan, status_pelunasan "
+                + "FROM data_persewaan_studio_musik "
+                + "WHERE kode_sewa = ? ORDER BY kode_sewa ASC";
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        pegawaiList = jdbcTemplate.query(sql, new DataPersewaanStudioMusikRowMapper(), pKode);
+        return pegawaiList;
+    }
+    
+    public static String hitungTotalPemasukan(String pBulan, String pTahun)
+    {
+        DataSource dataSource = DatabaseConnection.getmDataSource();
+
+        String sql = "SELECT sum(biaya_pelunasan) FROM data_persewaan_studio_musik WHERE to_char(tanggal_sewa, 'mm-yyyy') = '" + pBulan + "-" + pTahun + "' ORDER BY kode_sewa ASC";
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        String query = jdbcTemplate.queryForObject(sql, String.class);
+        return query;
     }
 
     public static boolean cekKetersediaanJadwal(DataPersewaanStudioMusik pDataPersewaanStudioMusik) {
@@ -245,30 +281,18 @@ public class DataPersewaanStudioMusik {
                 },
                 new DataPersewaanStudioMusikRowMapper());
 
-        if (pegawaiList.size() <= 0) {
+        if (pegawaiList.isEmpty()) {
             return true;
-        } else {
-            return false;
         }
-    }
+        
+        return false;
 
-//    SELECT * FROM cobacoba WHERE
-//to_char(jam_mulai,'hh24:mi:ss.FF3')
-//BETWEEN '10:00:00' AND '11:00:00' 
-//OR 
-//(to_char(jam_selesai,'hh24:mi:ss.FF3') > '10:00:00' AND 
-//to_char(jam_mulai,'hh24:mi:ss.FF3') < '11:00:00');
-    public static void updateData(DataPersewaanStudioMusik pDataPersewaanStudioMusik) {
+    }
+    
+    public static void updateDataPelunasan(String pKode) {
         DataSource dataSource = DatabaseConnection.getmDataSource();
 
         String sql = "UPDATE data_persewaan_studio_musik SET "
-                + "kode_studio = ?, "
-                + "nama_penyewa = ?, "
-                + "nomor_telepon = ?, "
-                + "tanggal_sewa = ?, "
-                + "jam_sewa = ?, "
-                + "durasi = ?, "
-                + "biaya_pelunasan = ?, "
                 + "status_pelunasan = ? "
                 + "WHERE kode_sewa = ?";
 
@@ -276,15 +300,8 @@ public class DataPersewaanStudioMusik {
 
         jdbcTemplate.update(sql,
                 new Object[]{
-                    pDataPersewaanStudioMusik.getmKodeStudio(),
-                    pDataPersewaanStudioMusik.getmNamaPenyewa(),
-                    pDataPersewaanStudioMusik.getmNomorTeleponPenyewa(),
-                    pDataPersewaanStudioMusik.getmTanggalSewa(),
-                    pDataPersewaanStudioMusik.getmJamSewa(),
-                    pDataPersewaanStudioMusik.getmDurasi(),
-                    pDataPersewaanStudioMusik.getmBiayaPelunasan(),
-                    pDataPersewaanStudioMusik.getmStatusPelunasan(),
-                    pDataPersewaanStudioMusik.getmKodeSewa()
+                    DataPersewaanStudioMusik.STATUS_PELUNASAN.LUNAS,
+                    pKode
                 });
     }
 
