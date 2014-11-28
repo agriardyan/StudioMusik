@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author root
+ * @author Agustinus Agri
  */
 public class DataPersewaanStudioMusikTest {
     
@@ -202,32 +202,6 @@ public class DataPersewaanStudioMusikTest {
     }
 
     /**
-     * Test of getmJamSelesai method, of class DataPersewaanStudioMusik.
-     */
-    @Test
-    public void testGetmJamSelesai() {
-        System.out.println("getmJamSelesai");
-        DataPersewaanStudioMusik instance = new DataPersewaanStudioMusik();
-        String expResult = "";
-        String result = instance.getmJamSelesai();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setmJamSelesai method, of class DataPersewaanStudioMusik.
-     */
-    @Test
-    public void testSetmJamSelesai() {
-        System.out.println("setmJamSelesai");
-        String mJamSelesai = "";
-        DataPersewaanStudioMusik instance = new DataPersewaanStudioMusik();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of getmDurasi method, of class DataPersewaanStudioMusik.
      */
     @Test
@@ -309,15 +283,70 @@ public class DataPersewaanStudioMusikTest {
     }
 
     /**
+     * Test of getGeneratedKodeSewa method, of class DataPersewaanStudioMusik.
+     */
+    @Test
+    public void testGetGeneratedKodeSewa() {
+        System.out.println("getGeneratedKodeSewa");
+        DataPersewaanStudioMusik instance = new DataPersewaanStudioMusik();
+        String expResult = "";
+        String result = instance.getGeneratedKodeSewa();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setmJamSelesai method, of class DataPersewaanStudioMusik.
+     */
+    @Test
+    public void testSetmJamSelesai() {
+        System.out.println("setmJamSelesai");
+        String mJamSelesai = "";
+        DataPersewaanStudioMusik instance = new DataPersewaanStudioMusik();
+        instance.setmJamSelesai(mJamSelesai);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getmJamSelesai method, of class DataPersewaanStudioMusik.
+     */
+    @Test
+    public void testGetmJamSelesai() {
+        System.out.println("getmJamSelesai");
+        DataPersewaanStudioMusik instance = new DataPersewaanStudioMusik();
+        String expResult = "";
+        String result = instance.getmJamSelesai();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
      * Test of simpanData method, of class DataPersewaanStudioMusik.
      */
     @Test
     public void testSimpanData() {
         System.out.println("simpanData");
-        DataPersewaanStudioMusik pDataPersewaanStudioMusik = null;
-        DataPersewaanStudioMusik.simpanData(pDataPersewaanStudioMusik);
+        DataPersewaanStudioMusik dpsm = new DataPersewaanStudioMusik();
+        dpsm.setmKodeStudio("101");
+        dpsm.setmNamaPenyewa("MISTER BRO");
+        dpsm.setmNomorTeleponPenyewa("085648612365");
+        dpsm.setmTanggalSewa("21-NOV-14");
+        dpsm.setmJamSewa("18:00");
+        dpsm.setmDurasi(60);
+        dpsm.setmBiayaPelunasan(30000);
+        dpsm.setmStatusPelunasan("BOOKING");
+        
+        assertNotNull(dpsm);
+        
+        DataPersewaanStudioMusik.simpanData(dpsm);
+        
+        System.out.println("sukses menyimpan");
+        
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        fail("The test case is a prototype.");
     }
 
     /**
@@ -328,6 +357,21 @@ public class DataPersewaanStudioMusikTest {
         System.out.println("getDataList");
         List<DataPersewaanStudioMusik> expResult = null;
         List<DataPersewaanStudioMusik> result = DataPersewaanStudioMusik.getDataList();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getDataListByMonth method, of class DataPersewaanStudioMusik.
+     */
+    @Test
+    public void testGetDataListByMonth() {
+        System.out.println("getDataListByMonth");
+        String pBulan = "";
+        String pTahun = "";
+        List<DataPersewaanStudioMusik> expResult = null;
+        List<DataPersewaanStudioMusik> result = DataPersewaanStudioMusik.getDataListByMonth(pBulan, pTahun);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
