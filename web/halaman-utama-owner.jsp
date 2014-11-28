@@ -120,9 +120,10 @@
                     <%
                         if (request.getParameter("commit") != null) {
                             List<DataPersewaanStudioMusik> dataSewaList = DataPersewaanStudioMusik.getDataListByMonth(bulan, tahun);
+                            String total = DataPersewaanStudioMusik.hitungTotalPemasukan(bulan, tahun);
 
                     %> 
-                    <table border="1">
+                    <table class="ui table">
                         <thead>
                             <tr>
                                 <th>KODE SEWA</th>
@@ -152,9 +153,22 @@
                             </tr>
 
                             <%
-                                    }
+                                }%>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>TOTAL PEMASUKAN</td>
+                                <td><%= total%></td>
+                                <td></td>
+                            </tr>
+                            <%
                                 }
                             %>
+
                         </tbody>
                     </table>
 

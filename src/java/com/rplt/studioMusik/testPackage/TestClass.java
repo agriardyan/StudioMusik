@@ -39,7 +39,7 @@ public class TestClass {
 //        
 //        testLogin();
 //        
-//        getDataListByMonth("Nov", "2014");
+        getDataListByMonth("11", "2014");
         
         dpsm.setmKodeStudio("103");
         dpsm.setmTanggalSewa("20-NOV-14");

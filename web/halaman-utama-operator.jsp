@@ -1,9 +1,10 @@
 <%-- 
     Document   : halaman-utama
     Created on : Nov 22, 2014, 9:16:05 AM
-    Author     : Lorencius
+    Author     : Agustinus Agri
 --%>
 
+<%@page import="com.rplt.studioMusik.model.DataPegawai"%>
 <%@page import="com.rplt.studioMusik.model.DataPersewaanStudioMusik"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -12,6 +13,8 @@
         if (request.getParameter("logoutAd") != null) {
             response.sendRedirect("halaman-home-studio.jsp");
         }
+
+
     %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -21,44 +24,54 @@
         <title>Halaman Utama Operator</title>
     </head>
     <body>
-        <%
-            String tanggal = "";
+        <%            String tanggal = "";
             String jamSewa = "";
             String kodeStudio = "";
             String durasiSewa = "";
             String namaPemesan = "";
             String noTelp = "";
             String ketersediaan = "";
+            String disable = "disabled";
 
             if (null != request.getParameter("commit")) {
 
                 DataPersewaanStudioMusik dpsm = new DataPersewaanStudioMusik();
 
                 dpsm.setmTanggalSewa(request.getParameter("tanggalSewa"));
-                dpsm.setmJamSelesai(request.getParameter("jamSewa"));
+                dpsm.setmJamSewa(request.getParameter("jamSewa"));
                 dpsm.setmKodeStudio(request.getParameter("studio"));
                 dpsm.setmDurasi(Integer.parseInt(request.getParameter("durasiSewa")));
 
+//                out.println(dpsm.getmJamSewa());
+//                out.println(dpsm.getmTanggalSewa());
+//                out.println(dpsm.getmKodeStudio());
+//                out.println(dpsm.getmDurasi());
+
                 boolean cek = DataPersewaanStudioMusik.cekKetersediaanJadwal(dpsm);
-                
-                out.print(cek);
-                out.print(dpsm.getmJamSewa());
+
 
                 if (cek) {
                     tanggal = request.getParameter("tanggalSewa");
                     jamSewa = request.getParameter("jamSewa");
                     kodeStudio = request.getParameter("studio");
                     durasiSewa = request.getParameter("durasiSewa");
+                    
+                    String biayaSewa = DataPersewaanStudioMusik.hitungBiayaSewa(dpsm.getmDurasi(), dpsm.getmKodeStudio());
+                    double uangMuka = Double.parseDouble(biayaSewa) * 0.6;
+                    
+                    ketersediaan = "Biaya sewa = "+biayaSewa+"<br />"+"Uang muka = "+uangMuka;
+                    disable="";
 
                     session.setAttribute("tanggal", tanggal);
                     session.setAttribute("jamSewa", jamSewa);
                     session.setAttribute("kodeStudio", kodeStudio);
                     session.setAttribute("durasiSewa", durasiSewa);
+                    session.setAttribute("biayaSewa", biayaSewa);
+                    
+                    
                 } else {
-                    out.print("<script type=\"text/javascript\">");
-                    out.print("alert(\"Jadwal tersebut tidak tersedia!\");");
-                    out.print("</script>");
                     ketersediaan = "Pilih jadwal lain";
+                    disable = "disabled";
                 }
 
             }
@@ -116,10 +129,9 @@
                 </div>
             </div>
             <!--End of Menu bar-->
-
-            <h3 class="ui black inverted center aligned top attached header">Cek Ketersediaan Jadwal</h3>
-            <div class="ui bottom attached segment">
-                <form method="POST">
+            <form method="POST">
+                <h3 class="ui black inverted center aligned top attached header">Cek Ketersediaan Jadwal</h3>
+                <div class="ui bottom attached segment">
                     <div id="formCek" class="ui two column middle aligned relaxed grid basic segment">
                         <div class="column">
                             <div class="ui form basic segment">
@@ -168,31 +180,32 @@
                             <div class="ui form basic segment">
                                 <div class="two fields">
                                     <div class="field">
-                                        <input type="submit" name="commit" class="big green ui fluid button" value="Cek Jadwal">
+                                        <input type="submit" name="commit" class="big green ui submit button" value="Cek Jadwal">
                                         <!--                                    Cek Jadwal
                                                                         </div>-->
                                     </div>
-                                    <div class="field">
-                                        <h6><% out.print(ketersediaan); %></h6>
+                                    <div class="center aligned field">
+                                        <h4 style="color: red"><% out.print(ketersediaan);%></h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
-            </div>
+                    </div>                
+                </div> 
+            </form>
         </div>
+
 
         <form action="summary.jsp" method="POST">
             <div class="ui one column grid">
                 <div class="column">
                     <h3 class="ui black inverted center aligned top attached header">Pemesanan</h3>
                     <div class="ui form attached segment">
-                        <div class="field">
-                            <input type="text" name="namaPemesan" placeholder="Nama Pemesan"> 
+                        <div class="<%= disable %> field">
+                            <input type="text" name="namaPemesan" placeholder="Nama Pemesan" <%= disable %> > 
                         </div>
-                        <div class="field">
-                            <input type="text" name="noTelp" placeholder="Nomor Telepon Pemesan">
+                        <div class="<%= disable %> field">
+                            <input type="text" name="noTelp" placeholder="Nomor Telepon Pemesan" <%= disable %> >
                         </div>
                     </div>
                 </div>
@@ -216,7 +229,6 @@
         <script type="text/javascript">
             var originalState = $('#formCek').clone();
             $('#formCek').replaceWith(originalState);
-
             //            var clickStudio1 = function(){
             //                document.getElementById("noStudio").val = "Studio 1";
             //            };
@@ -231,6 +243,48 @@
                 $('#popupClockpicker').clockpicker({autoclose: true});
                 $('#popupDatepicker').datepick({dateFormat: 'dd-M-yyyy'});
                 $('.ui.dropdown').dropdown();
+            });
+
+
+            $('.ui.form').form({
+                inline: true,
+                on: 'blur',
+                name: {
+                    identifier: 'tanggalSewa',
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: 'Masukkan tanggal penyewaan'
+                        }
+                    ]
+                },
+                gender: {
+                    identifier: 'jamSewa',
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: 'Masukkan jam sewa'
+                        }
+                    ]
+                },
+                username: {
+                    identifier: 'studio',
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: 'Masukkan studio yang dipilih'
+                        }
+                    ]
+                },
+                password: {
+                    identifier: 'durasiSewa',
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: 'Masukkan durasi sewa'
+                        }
+                    ]
+                }
             });
         </script>
     </body>
