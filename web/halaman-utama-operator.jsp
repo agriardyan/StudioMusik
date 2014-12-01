@@ -46,29 +46,26 @@
 //                out.println(dpsm.getmTanggalSewa());
 //                out.println(dpsm.getmKodeStudio());
 //                out.println(dpsm.getmDurasi());
-
                 boolean cek = DataPersewaanStudioMusik.cekKetersediaanJadwal(dpsm);
-
 
                 if (cek) {
                     tanggal = request.getParameter("tanggalSewa");
                     jamSewa = request.getParameter("jamSewa");
                     kodeStudio = request.getParameter("studio");
                     durasiSewa = request.getParameter("durasiSewa");
-                    
+
                     String biayaSewa = DataPersewaanStudioMusik.hitungBiayaSewa(dpsm.getmDurasi(), dpsm.getmKodeStudio());
                     double uangMuka = Double.parseDouble(biayaSewa) * 0.6;
-                    
-                    ketersediaan = "Biaya sewa = "+biayaSewa+"<br />"+"Uang muka = "+uangMuka;
-                    disable="";
+
+                    ketersediaan = "Biaya sewa = " + biayaSewa + "<br />" + "Uang muka = " + uangMuka;
+                    disable = "";
 
                     session.setAttribute("tanggal", tanggal);
                     session.setAttribute("jamSewa", jamSewa);
                     session.setAttribute("kodeStudio", kodeStudio);
                     session.setAttribute("durasiSewa", durasiSewa);
                     session.setAttribute("biayaSewa", biayaSewa);
-                    
-                    
+
                 } else {
                     ketersediaan = "Pilih jadwal lain";
                     disable = "disabled";
@@ -97,7 +94,7 @@
 //
 //                DataPersewaanStudioMusik.simpanData(dpsm);
 //            }
-%>
+        %>
         <!--Menu bar-->
         <div class="container">
             <div class="ui menu">
@@ -201,11 +198,11 @@
                 <div class="column">
                     <h3 class="ui black inverted center aligned top attached header">Pemesanan</h3>
                     <div class="ui form attached segment">
-                        <div class="<%= disable %> field">
-                            <input type="text" name="namaPemesan" placeholder="Nama Pemesan" <%= disable %> > 
+                        <div class="<%= disable%> field">
+                            <input type="text" name="namaPemesan" placeholder="Nama Pemesan" <%= disable%> > 
                         </div>
-                        <div class="<%= disable %> field">
-                            <input type="text" name="noTelp" placeholder="Nomor Telepon Pemesan" <%= disable %> >
+                        <div class="<%= disable%> field">
+                            <input type="text" name="noTelp" placeholder="Nomor Telepon Pemesan" <%= disable%> >
                         </div>
                     </div>
                 </div>

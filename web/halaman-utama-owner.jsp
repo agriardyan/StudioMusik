@@ -12,6 +12,7 @@
 
     <%
         if (request.getParameter("logoutAd") != null) {
+            session.invalidate();
             response.sendRedirect("halaman-home-studio.jsp");
         }
     %>
@@ -121,6 +122,7 @@
                         if (request.getParameter("commit") != null) {
                             List<DataPersewaanStudioMusik> dataSewaList = DataPersewaanStudioMusik.getDataListByMonth(bulan, tahun);
                             String total = DataPersewaanStudioMusik.hitungTotalPemasukan(bulan, tahun);
+                            if(total.isEmpty()) { total = "0"; }
 
                     %> 
                     <table class="ui table">

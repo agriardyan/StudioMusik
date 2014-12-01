@@ -138,16 +138,6 @@ public class DataPersewaanStudioMusik {
         }
     }
     
-    public static String hitungBiayaSewa(String pDurasi, String pKodeStudio)
-    {
-        DataSource dataSource = DatabaseConnection.getmDataSource();
-
-        String sql = "SELECT ? / 60 * TARIF_PER_JAM FROM STUDIO_MUSIK WHERE KODE_STUDIO = ?;";
-
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        String query = jdbcTemplate.queryForObject(sql, new Object[] {pDurasi, pKodeStudio}, String.class);
-        return query;
-    }
     public static String hitungBiayaSewa(int pDurasi, String pKodeStudio)
     {
         DataSource dataSource = DatabaseConnection.getmDataSource();
